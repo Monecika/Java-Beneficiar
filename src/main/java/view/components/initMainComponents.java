@@ -9,8 +9,6 @@ import java.awt.*;
 public class initMainComponents {
     private final CreateImage createImage = new CreateImage();
 
-    private final String DARK_ICON_PATH = "/themeIcons/dark_theme.png";  // Relative path within resources
-    private final String LIGHT_ICON_PATH = "../resources/themeIcons/light_theme.png";
     private JLabel logo;
     private JMenuBar menuBar;
     private JMenu homeMenu;
@@ -27,7 +25,7 @@ public class initMainComponents {
     public initMainComponents() {
     }
 
-    public JPanel initHeader() {
+    public JPanel initHeader(String path) {
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
         header.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -87,7 +85,7 @@ public class initMainComponents {
         menuBar.add(viewMenu);
         menuBar.add(windowMenu);
 
-        ImageIcon icon = new ImageIcon(createImage.createImageIcon(DARK_ICON_PATH).getImage());
+        ImageIcon icon = new ImageIcon(createImage.createImageIcon(path).getImage());
         logoButton = new JButton(icon);
         logoButton.setFocusPainted(false);
         logoButton.setContentAreaFilled(false);

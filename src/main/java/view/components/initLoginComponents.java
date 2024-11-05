@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class initLoginComponents {
-    private final String DARK_ICON_PATH = "../resources/themeIcons/dark_theme.png";
-    private final String LIGHT_ICON_PATH = "../resources/themeIcons/light_theme.png";
     private final CreateImage createImage = new CreateImage();
 
     private JLabel logo;
@@ -15,8 +13,8 @@ public class initLoginComponents {
     private JPanel leftPanel;
     private JPanel rightPanel;
 
-    public JPanel initHeader() {
-        ImageIcon darkIcon = new ImageIcon(createImage.createImageIcon(DARK_ICON_PATH).getImage());
+    public JPanel initHeader(String path) {
+        ImageIcon darkIcon = new ImageIcon(createImage.createImageIcon(path).getImage());
 
         logo = new JLabel("LOGO", SwingConstants.CENTER);
         logo.setFont(new Font("SansSerif", Font.BOLD, 24));

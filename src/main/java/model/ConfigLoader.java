@@ -14,13 +14,24 @@ public class ConfigLoader {
 
             if (inputStream != null) {
                 properties.load(inputStream);
+                inputStream.close();
+
+            } else {
+                System.out.println("Error: Property file '" + propFileName + "' not found in the classpath.");
             }
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error loading properties file: " + e.getMessage());
         }
     }
 
+
     public String getProperty(String key) {
-        return properties.getProperty(key);
+        String value = properties.getProperty(key);
+        if (value == null) {
+            System.out.println("Warning: Property key '" + key + "' not found in the properties file.");
+        } else {
+            System.out.println("Property '" + key + "' found with value: " + value);
+        }
+        return value;
     }
 }

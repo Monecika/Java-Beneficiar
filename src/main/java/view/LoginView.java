@@ -9,7 +9,8 @@ import java.awt.*;
 
 public class LoginView {
     private final LoginController controller;
-    private final initLoginComponents components = new initLoginComponents();
+    private final initLoginComponents components;
+
     private JFrame frame;
     private JPanel headerPanel;
     private JPanel containerPanel;
@@ -18,6 +19,7 @@ public class LoginView {
 
     public LoginView(LoginController controller) {
         this.controller = controller;
+        this.components = new initLoginComponents();
     }
 
     public void initLight() {
@@ -29,7 +31,7 @@ public class LoginView {
 
         FlatDarkLaf.setup();
 
-        headerPanel = components.initHeader();
+        headerPanel = components.initHeader(controller.getDarkIcon());
 
         containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
