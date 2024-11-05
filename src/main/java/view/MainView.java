@@ -27,7 +27,7 @@ public class MainView {
 
 //        FlatDarkLaf.setup();
 
-        headerPanel = init.initHeader();
+        headerPanel = init.initHeader(controller.getDarkIcon());
         bodyPanel = init.initBody();
 
         frame.add(headerPanel, BorderLayout.NORTH);
