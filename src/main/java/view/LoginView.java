@@ -23,7 +23,7 @@ public class LoginView {
         this.components = new initLoginComponents();
     }
 
-    public void initLight() {
+    public void init() {
         frame = new JFrame();
         frame.setTitle("Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

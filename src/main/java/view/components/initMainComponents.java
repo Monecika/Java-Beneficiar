@@ -1,14 +1,16 @@
 package view.components;
 
 
+import controller.Controller;
 import controller.CreateImage;
+import view.MainView;
+import view.View;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class initMainComponents {
+public class initMainComponents extends View {
     private final CreateImage createImage = new CreateImage();
-
     private JLabel logo;
     private JMenuBar menuBar;
     private JMenu homeMenu;
@@ -22,10 +24,13 @@ public class initMainComponents {
     private JMenuItem search;
     private JButton logoButton;
 
+    private boolean isDarkTheme = false;
+
     public initMainComponents() {
     }
 
-    public JPanel initHeader(String path) {
+    public JPanel initHeader(String dark, String light, JFrame frame) {
+
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
         header.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -85,11 +90,15 @@ public class initMainComponents {
         menuBar.add(viewMenu);
         menuBar.add(windowMenu);
 
-        ImageIcon icon = new ImageIcon(createImage.createImageIcon(path).getImage());
-        logoButton = new JButton(icon);
+        ImageIcon icon = new ImageIcon(createImage.createImageIcon(dark).getImage());
+        ImageIcon icon2 = new ImageIcon(createImage.createImageIcon(light).getImage());
+        logoButton = new JButton(isDarkTheme ? icon2 : icon);
         logoButton.setFocusPainted(false);
         logoButton.setContentAreaFilled(false);
         logoButton.setBorderPainted(false);
+        logoButton.addActionListener(e -> {
+            changeTheme(icon, icon2, frame);
+        });
 
         header.add(logo);
         header.add(Box.createHorizontalGlue());
@@ -116,5 +125,14 @@ public class initMainComponents {
         return bodyPanel;
     }
 
+    private void changeTheme(ImageIcon icon, ImageIcon icon2, JFrame frame) {
+        isDarkTheme = !isDarkTheme;
+
+        logoButton = new JButton(isDarkTheme ? icon : icon2);
+        if (isDarkTheme) initDark();
+        else initLight();
+
+        SwingUtilities.updateComponentTreeUI(frame);
+    }
 
 }

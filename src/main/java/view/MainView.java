@@ -1,13 +1,12 @@
 package view;
 
 import controller.Controller;
-import controller.MainController;
 import view.components.initMainComponents;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainView {
+public class MainView extends View {
     private final Controller controller;
     private final initMainComponents init = new initMainComponents();
 
@@ -20,15 +19,13 @@ public class MainView {
         this.controller = controller;
     }
 
-    public void initLight() {
+    public void init() {
         frame = new JFrame();
         frame.setTitle("Beneficiaris");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-//        FlatDarkLaf.setup();
-
-        headerPanel = init.initHeader(controller.getDarkIcon());
+        headerPanel = init.initHeader(controller.getDarkIcon(), controller.getLightIcon(), frame);
         bodyPanel = init.initBody();
 
         frame.add(headerPanel, BorderLayout.NORTH);
