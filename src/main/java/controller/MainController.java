@@ -1,19 +1,12 @@
 package controller;
 
 import model.MainModel;
+import model.Model;
 
 public class MainController {
-    private final MainModel model;
+    private final Model model;
 
-    public MainController(MainModel model) {
+    public MainController(Model model) {
         this.model = model;
-    }
-
-    public String getDarkIcon() {
-        return model.getProperty("DARK_ICON_PATH");
-    }
-
-    public String getLightIcon() {
-        return model.getProperty("LIGHT_ICON_PATH");
     }
 }

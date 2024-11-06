@@ -1,26 +1,16 @@
 package controller;
 
 import model.LoginModel;
+import model.Model;
 
 import javax.swing.*;
 
 public class LoginController {
-    private final LoginModel model;
+    private final Model model;
     private final CreateImage createImage = new CreateImage();
 
-    public LoginController(LoginModel loginModel) {
-        this.model = loginModel;
+    public LoginController(Model model) {
+        this.model = model;
     }
 
-    public ImageIcon createImageIcon(String path) {
-        return createImage.createImageIcon(path);
-    }
-
-    public String getDarkIcon() {
-        return model.getProperty("DARK_ICON_PATH");
-    }
-
-    public String getLightIcon() {
-        return model.getProperty("LIGHT_ICON_PATH");
-    }
 }

@@ -1,9 +1,7 @@
 package org.project;
 
-import controller.LoginController;
-import controller.MainController;
-import model.LoginModel;
-import model.MainModel;
+import controller.Controller;
+import model.Model;
 import view.LoginView;
 import view.MainView;
 
@@ -11,13 +9,16 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        MainModel mainModel = new MainModel();
-        MainController mainController = new MainController(mainModel);
-        MainView mainView = new MainView(mainController);
+        Model model = new Model();
+        Controller controller = new Controller(model);
 
-        LoginModel loginModel = new LoginModel();
-        LoginController loginController = new LoginController(loginModel);
-        LoginView loginView = new LoginView(loginController);
+//        MainModel mainModel = new MainModel();
+//        MainController mainController = new MainController(mainModel);
+        MainView mainView = new MainView(controller);
+
+//        LoginModel loginModel = new LoginModel();
+//        LoginController loginController = new LoginController(loginModel);
+        LoginView loginView = new LoginView(controller);
 
         SwingUtilities.invokeLater(() -> mainView.initLight());
     }

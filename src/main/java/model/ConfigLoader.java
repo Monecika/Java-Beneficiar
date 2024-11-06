@@ -17,10 +17,10 @@ public class ConfigLoader {
                 inputStream.close();
 
             } else {
-                System.out.println("Error: Property file '" + propFileName + "' not found in the classpath.");
+                System.err.println("Error: Property file '" + propFileName + "' not found in the classpath.");
             }
         } catch (IOException e) {
-            System.out.println("Error loading properties file: " + e.getMessage());
+            System.err.println("Error loading properties file: " + e.getMessage());
         }
     }
 
@@ -28,7 +28,7 @@ public class ConfigLoader {
     public String getProperty(String key) {
         String value = properties.getProperty(key);
         if (value == null) {
-            System.out.println("Warning: Property key '" + key + "' not found in the properties file.");
+            System.err.println("Warning: Property key '" + key + "' not found in the properties file.");
         } else {
             System.out.println("Property '" + key + "' found with value: " + value);
         }
