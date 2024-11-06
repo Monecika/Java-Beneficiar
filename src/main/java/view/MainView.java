@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import controller.MainController;
 import view.components.initMainComponents;
 
@@ -7,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainView {
-    private final MainController controller;
+    private final Controller controller;
     private final initMainComponents init = new initMainComponents();
 
     private JFrame frame;
@@ -15,7 +16,7 @@ public class MainView {
     private JPanel bodyPanel;
 
 
-    public MainView(MainController controller) {
+    public MainView(Controller controller) {
         this.controller = controller;
     }
 

@@ -1,6 +1,7 @@
 package view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import controller.Controller;
 import controller.LoginController;
 import view.components.initLoginComponents;
 
@@ -8,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginView {
-    private final LoginController controller;
+    private final Controller controller;
     private final initLoginComponents components;
 
     private JFrame frame;
@@ -17,7 +18,7 @@ public class LoginView {
     private JPanel leftPanel;
     private JPanel rightPanel;
 
-    public LoginView(LoginController controller) {
+    public LoginView(Controller controller) {
         this.controller = controller;
         this.components = new initLoginComponents();
     }
