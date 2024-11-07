@@ -1,9 +1,9 @@
 package org.project;
 
-import controller.Controller;
-import model.Model;
-import view.LoginView;
-import view.MainView;
+import org.project.controller.Controller;
+import org.project.model.Model;
+import org.project.view.LoginView;
+import org.project.view.MainView;
 
 import javax.swing.*;
 

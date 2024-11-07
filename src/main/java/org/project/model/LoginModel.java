@@ -1,4 +1,4 @@
-package model;
+package org.project.model;
 
 public class LoginModel {
     private final ConfigLoader configLoader;

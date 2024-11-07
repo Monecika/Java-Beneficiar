@@ -1,4 +1,4 @@
-package controller;
+package org.project.controller;
 
 public class ActionHandler {
 }

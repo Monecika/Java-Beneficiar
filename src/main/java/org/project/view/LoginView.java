@@ -1,7 +1,7 @@
-package view;
+package org.project.view;
 
-import controller.Controller;
-import view.components.initLoginComponents;
+import org.project.controller.Controller;
+import org.project.view.components.initLoginComponents;
 
 import javax.swing.*;
 import java.awt.*;
