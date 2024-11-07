@@ -1,8 +1,8 @@
-package view.components;
+package org.project.view.components;
 
 
-import controller.CreateImage;
-import view.View;
+import org.project.controller.CreateImage;
+import org.project.view.View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,6 @@ public class initMainComponents extends View {
     private JMenuItem update;
     private JMenuItem delete;
     private JMenuItem add;
-    private JButton logoButton;
     private JPanel header;
 
 

@@ -1,20 +1,21 @@
-package view;
+package org.project.view;
 
-import controller.Controller;
-import view.components.initMainComponents;
+import org.project.controller.Controller;
+import org.project.view.components.initMainComponents;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 public class MainView extends View {
     private final Controller controller;
+    private final Color grayColor = new Color(78, 78, 78);
     private initMainComponents init;
-
-    private Color grayColor = new Color(78, 78, 78);
-
     private JFrame frame;
     private JPanel bodyPanel;
-
     private JMenu windowMenu;
     private JMenuItem search;
     private JMenu viewMenu;
@@ -36,6 +37,10 @@ public class MainView extends View {
     private JPanel header;
 
     private boolean isDarkTheme = false;
+    private boolean isNameSortable = false;
+    private boolean isSurnameSortable = false;
+
+    private TableRowSorter<DefaultTableModel> sorter;
 
     public MainView(Controller controller) {
         this.controller = controller;
@@ -55,8 +60,17 @@ public class MainView extends View {
         viewSceptic = init.getViewSceptic();
         export = init.getExport();
         filterMenu = init.getFilterMenu();
+
         filterName = init.getFilterName();
+        filterName.addActionListener(e -> {
+            setNameSortable();
+        });
+
         filterSurname = init.getFilterSurname();
+        filterSurname.addActionListener(e -> {
+            setSurnameSortable();
+        });
+
         filterRegion = init.getFilterRegion();
         logo = init.getLogo();
         menuBar = init.getMenuBar();
@@ -69,7 +83,6 @@ public class MainView extends View {
         ImageIcon iconDark = controller.getDarkImageIcon();
         ImageIcon iconLight = controller.getLightImageIcon();
         logoButton = new JButton(isDarkTheme ? iconLight : iconDark);
-        System.out.println(123);
         logoButton = init.setLogoButton(logoButton);
         logoButton.addActionListener(e -> {
             changeTheme(iconDark, iconLight);
@@ -95,10 +108,24 @@ public class MainView extends View {
         String[] columnNames = {"BeneficiarId", "Name", "Surname", "Address", "DocumentID", "Phone", "Location", "Location Code", "CardNumber", "Operations"};
 
         JTable table = new JTable(data, columnNames);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        sorter = new TableRowSorter<>(new DefaultTableModel(data, columnNames));
+        table.setRowSorter(sorter);
+
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(753, 600));
+        scrollPane.setPreferredSize(new Dimension(1000, 600));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        TableColumnModel tableColumnModel = table.getColumnModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+            tableColumnModel.getColumn(i).setResizable(false);
+            sorter.setSortable(i, false);
+        }
+        sorter.setSortable(0, true);
 
         JPanel bodyPanel = new JPanel();
         bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
@@ -113,10 +140,23 @@ public class MainView extends View {
         if (isDarkTheme) {
             initDark();
             header.setBackground(grayColor);
-        } else{ initLight();
-        header.setBackground(Color.WHITE);
+        } else {
+            initLight();
+            header.setBackground(Color.WHITE);
         }
 
         SwingUtilities.updateComponentTreeUI(frame);
+    }
+
+    private void setNameSortable() {
+        isNameSortable = !isNameSortable;
+        filterName.setText(controller.addOrRemoveTick(filterName.getText(), isNameSortable));
+        sorter.setSortable(1, isNameSortable);
+    }
+
+    private void setSurnameSortable() {
+        isSurnameSortable = !isSurnameSortable;
+        filterSurname.setText(controller.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
+        sorter.setSortable(2, isSurnameSortable);
     }
 }

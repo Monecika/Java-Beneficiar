@@ -1,6 +1,6 @@
-package view.components;
+package org.project.view.components;
 
-import controller.CreateImage;
+import org.project.controller.CreateImage;
 
 import javax.swing.*;
 import java.awt.*;

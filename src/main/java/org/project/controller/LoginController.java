@@ -1,9 +1,6 @@
-package controller;
+package org.project.controller;
 
-import model.LoginModel;
-import model.Model;
-
-import javax.swing.*;
+import org.project.model.Model;
 
 public class LoginController {
     private final Model model;

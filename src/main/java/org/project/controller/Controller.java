@@ -1,6 +1,6 @@
-package controller;
+package org.project.controller;
 
-import model.Model;
+import org.project.model.Model;
 
 import javax.swing.*;
 
@@ -36,4 +36,9 @@ public class Controller {
     private String getLightIcon() {
         return model.getProperty("LIGHT_ICON_PATH");
     }
+
+    public String addOrRemoveTick(String text, boolean value) {
+        return mainController.addOrRemoveTick(text, value);
+    }
+
 }
