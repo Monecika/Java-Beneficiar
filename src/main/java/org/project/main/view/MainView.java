@@ -1,7 +1,7 @@
-package org.project.view;
+package org.project.main.view;
 
-import org.project.controller.Controller;
-import org.project.view.components.initMainComponents;
+import org.project.app.controller.Controller;
+import org.project.app.view.View;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,7 +11,6 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 public class MainView extends View {
-    private final Controller controller;
     private final Color grayColor = new Color(78, 78, 78);
     private initMainComponents init;
     private JFrame frame;
@@ -43,7 +42,7 @@ public class MainView extends View {
     private TableRowSorter<DefaultTableModel> sorter;
 
     public MainView(Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     public void init() {

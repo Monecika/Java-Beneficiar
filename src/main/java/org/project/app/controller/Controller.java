@@ -1,6 +1,8 @@
-package org.project.controller;
+package org.project.app.controller;
 
-import org.project.model.Model;
+import org.project.login.controller.LoginController;
+import org.project.main.controller.MainController;
+import org.project.app.model.Model;
 
 import javax.swing.*;
 

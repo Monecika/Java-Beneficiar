@@ -1,4 +1,6 @@
-package org.project.model;
+package org.project.login.model;
+
+import org.project.app.model.ConfigLoader;
 
 public class LoginModel {
     private final ConfigLoader configLoader;

@@ -1,6 +1,6 @@
-package org.project.controller;
+package org.project.main.controller;
 
-import org.project.model.Model;
+import org.project.app.model.Model;
 
 public class MainController {
     private final Model model;

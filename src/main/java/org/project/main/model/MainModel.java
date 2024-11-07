@@ -1,4 +1,6 @@
-package org.project.model;
+package org.project.main.model;
+
+import org.project.app.model.ConfigLoader;
 
 public class MainModel {
     private final ConfigLoader configLoader;

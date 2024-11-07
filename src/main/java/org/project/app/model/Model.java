@@ -1,4 +1,4 @@
-package org.project.model;
+package org.project.app.model;
 
 public class Model {
     private final ConfigLoader config;

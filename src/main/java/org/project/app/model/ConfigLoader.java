@@ -1,4 +1,4 @@
-package org.project.model;
+package org.project.app.model;
 
 import java.io.IOException;
 import java.io.InputStream;

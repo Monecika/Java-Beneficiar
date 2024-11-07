@@ -1,14 +1,30 @@
-package org.project.view;
+package org.project.app.view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import org.project.app.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class View {
+    protected final Controller controller;
+    private ImageIcon iconDark;
+    private ImageIcon iconLight;
+    private JButton iconButton;
 
-    public View() {
+    public View(Controller controller) {
+        this.controller = controller;
+    }
+
+    protected JButton initIconButton() {
+        iconDark = getIconDark();
+
+        iconButton = new JButton(iconDark);
+        iconButton.setContentAreaFilled(false);
+        iconButton.setFocusPainted(false);
+        iconButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+        return iconButton;
     }
 
     protected void initDark() {
@@ -27,5 +43,13 @@ public class View {
         UIManager.put("MenuItem.selectionBackground", null);
         UIManager.put("Table.selectionBackground", null);
         UIManager.put("List.selectionBackground", null);
+    }
+
+    public ImageIcon getIconDark() {
+        return controller.getDarkImageIcon();
+    }
+
+    public ImageIcon getIconLight() {
+        return controller.getLightImageIcon();
     }
 }

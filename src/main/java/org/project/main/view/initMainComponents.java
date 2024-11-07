@@ -1,13 +1,13 @@
-package org.project.view.components;
+package org.project.main.view;
 
 
-import org.project.controller.CreateImage;
-import org.project.view.View;
+import org.project.app.controller.CreateImage;
+import org.project.app.view.View;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class initMainComponents extends View {
+public class initMainComponents {
     private final CreateImage createImage = new CreateImage();
     private JMenu windowMenu;
     private JMenuItem search;

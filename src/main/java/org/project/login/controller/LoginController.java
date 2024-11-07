@@ -1,6 +1,7 @@
-package org.project.controller;
+package org.project.login.controller;
 
-import org.project.model.Model;
+import org.project.app.controller.CreateImage;
+import org.project.app.model.Model;
 
 public class LoginController {
     private final Model model;
