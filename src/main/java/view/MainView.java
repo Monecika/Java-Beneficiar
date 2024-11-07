@@ -113,7 +113,9 @@ public class MainView extends View {
         if (isDarkTheme) {
             initDark();
             header.setBackground(grayColor);
-        } else initLight();
+        } else{ initLight();
+        header.setBackground(Color.WHITE);
+        }
 
         SwingUtilities.updateComponentTreeUI(frame);
     }
