@@ -18,15 +18,22 @@ public class Controller {
         this.createImage = new CreateImage();
     }
 
-    public ImageIcon createImageIcon(String path) {
-        return createImage.createImageIcon(path);
+
+    public ImageIcon getDarkImageIcon() {
+        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getDarkIcon()).getImage());
+        return icon;
+    }
+
+    public ImageIcon getLightImageIcon() {
+        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getLightIcon()).getImage());
+        return icon;
     }
 
     public String getDarkIcon() {
         return model.getProperty("DARK_ICON_PATH");
     }
 
-    public String getLightIcon() {
+    private String getLightIcon() {
         return model.getProperty("LIGHT_ICON_PATH");
     }
 }
