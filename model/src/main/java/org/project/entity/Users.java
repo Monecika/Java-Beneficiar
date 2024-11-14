@@ -1,18 +1,28 @@
-package org.project.model.tables;
+package org.project.entity;
 
 import java.util.Date;
 
 public class Users {
+    private int ID;
     private String username;
     private String password;
     private Date createdAt;
     private int roleID;
 
-    public Users(String username, String password, Date createdAt, int roleID) {
+    public Users(int ID, String username, String password, Date createdAt, int roleID) {
+        this.ID = ID;
         this.username = username;
         this.password = password;
         this.createdAt = createdAt;
         this.roleID = roleID;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getUsername() {

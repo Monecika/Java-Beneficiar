@@ -1,18 +1,28 @@
-package org.project.model.tables;
+package org.project.entity;
 
 public class Localities {
+    private int ID;
     private String localityName;
     private String localityType;
     private int environmentID;
     private int population;
     private double area;
 
-    public Localities(String localityName, String localityType, int environmentID, int population, double area) {
+    public Localities(int ID, String localityName, String localityType, int environmentID, int population, double area) {
+        this.ID = ID;
         this.localityName = localityName;
         this.localityType = localityType;
         this.environmentID = environmentID;
         this.population = population;
         this.area = area;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getLocalityName() {

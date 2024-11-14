@@ -1,6 +1,7 @@
-package org.project.model.tables;
+package org.project.entity;
 
 public class Beneficiaries {
+    private int ID;
     private String codeBen;
     private String nameBen;
     private String surnameBen;
@@ -12,7 +13,8 @@ public class Beneficiaries {
     private String environment;
     private int cardID;
 
-    public Beneficiaries(String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID, String environment, int cardID) {
+    public Beneficiaries(int ID,String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID, String environment, int cardID) {
+        this.ID = ID;
         this.codeBen = codeBen;
         this.nameBen = nameBen;
         this.surnameBen = surnameBen;
@@ -27,6 +29,14 @@ public class Beneficiaries {
 
     public String getCodeBen() {
         return codeBen;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setCodeBen(String codeBen) {

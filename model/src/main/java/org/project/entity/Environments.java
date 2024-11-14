@@ -1,12 +1,22 @@
-package org.project.model.tables;
+package org.project.entity;
 
 public class Environments {
+    private int ID;
     private String environment;
     private int popularityPercentage;
 
-    public Environments(String environment, int popularityPercentage) {
+    public Environments(int ID, String environment, int popularityPercentage) {
+        this.ID = ID;
         this.environment = environment;
         this.popularityPercentage = popularityPercentage;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getEnvironment() {

@@ -1,16 +1,26 @@
-package org.project.model.tables;
+package org.project.entity;
 
 import java.sql.Date;
 
 public class Cards {
+    private int ID;
     private String cardNr;
     private String cardType;
     private Date dateExpire;
 
-    public Cards(String cardNr, String cardType, Date dateExpire) {
+    public Cards(int ID,String cardNr, String cardType, Date dateExpire) {
+        this.ID = ID;
         this.cardNr = cardNr;
         this.cardType = cardType;
         this.dateExpire = dateExpire;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getCardNr() {
