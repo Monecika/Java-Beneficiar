@@ -10,7 +10,7 @@ public class Menus {
     }
 
     public JMenuItem initMenuItem(String name){
-        JMenuItem item = new JMenuItem();
+        JMenuItem item = new JMenuItem(name);
         return item;
     }
 
