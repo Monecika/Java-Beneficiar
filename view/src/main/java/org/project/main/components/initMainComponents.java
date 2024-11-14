@@ -44,7 +44,6 @@ public class initMainComponents {
         logo = new JLabel("Logo");
         logo.setFont(new Font("Ink Free", Font.PLAIN, 30));
         logo.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
-
     }
 
     private void initMenus() {
@@ -61,7 +60,6 @@ public class initMainComponents {
         homeMenu = new JMenu("Home");
         homeMenu.setFont(new Font("Ink Free", Font.PLAIN, 20));
         homeMenu.setBorder(BorderFactory.createEmptyBorder(13, 30, 0, 30));
-
     }
 
     private void initEditMenu() {
@@ -87,7 +85,6 @@ public class initMainComponents {
         filterMenu.add(filterRegion);
         filterMenu.setBorder(BorderFactory.createEmptyBorder(15, 30, 0, 30));
         filterMenu.setFont(new Font("Ink Free", Font.PLAIN, 20));
-
     }
 
     private void initViewMenu() {
