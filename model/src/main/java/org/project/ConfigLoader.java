@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigLoader {
-    private final String propFileName = "config.properties";
+    private final String propFileName = "ImageConfig.properties";
     private final Properties properties = new Properties();
 
     public ConfigLoader() {

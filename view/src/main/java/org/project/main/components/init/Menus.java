@@ -38,7 +38,7 @@ public class Menus {
 
         filterMenu.add(mainComponents.getFilterName());
         filterMenu.add(mainComponents.getFilterSurname());
-        filterMenu.add(mainComponents.getFilterSurname());
+        filterMenu.add(mainComponents.getFilterRegion());
         filterMenu.setBorder(BorderFactory.createEmptyBorder(15, 30, 0, 30));
         filterMenu.setFont(new Font("Ink Free", Font.PLAIN, 20));
 

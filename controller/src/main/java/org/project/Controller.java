@@ -42,4 +42,9 @@ public class Controller {
         return mainController.addOrRemoveTick(text, value);
     }
 
+    public String returnData(){
+        String data = null;
+
+        return data;
+    }
 }
