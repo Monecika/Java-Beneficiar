@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainView extends View {
     private final MainController mainController;
 
@@ -23,6 +22,7 @@ public class MainView extends View {
     private final MainComponents mainComponents = new MainComponents();
     private final ImageIcon iconDark = controller.getDarkImageIcon();
     private final ImageIcon iconLight = controller.getLightImageIcon();
+    private final ImageIcon deleteIcon;
 
     private JFrame frame;
     private JPanel bodyPanel;
@@ -43,6 +43,9 @@ public class MainView extends View {
     public MainView(Controller controller, MainController mainController) {
         super(controller);
         this.mainController = mainController;
+
+        deleteIcon = mainController.getDeleteImageIcon();
+
     }
 
     public void init() throws SQLException {
@@ -62,6 +65,7 @@ public class MainView extends View {
 
         filterLocality = mainComponents.getFilterRegion();
         filterLocality.addActionListener(e -> setLocalitySortable());
+
 
         header = mainComponents.getHeader();
         header.add(mainComponents.getLogo());
@@ -108,7 +112,7 @@ public class MainView extends View {
         }
 
         sorter.setSortable(0, true);
-        table.getColumnModel().getColumn(6).setPreferredWidth(200);
+        tableColumnModel.getColumn(6).setPreferredWidth(200);
 
         JPanel bodyPanel = new JPanel();
         bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
