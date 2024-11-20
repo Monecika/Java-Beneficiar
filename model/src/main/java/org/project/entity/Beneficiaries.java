@@ -13,7 +13,7 @@ public class Beneficiaries {
     private String environment;
     private int cardID;
 
-    public Beneficiaries(int ID,String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID, String environment, int cardID) {
+    public Beneficiaries(int ID, String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID, String environment, int cardID) {
         this.ID = ID;
         this.codeBen = codeBen;
         this.nameBen = nameBen;

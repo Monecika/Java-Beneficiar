@@ -25,7 +25,6 @@ public class MainController extends Controller {
         List<Beneficiaries> bens = mainModel.getBeneficiaries();
         for (Beneficiaries b : bens) {
             String[] beneficiar = {b.getCodeBen(), b.getNameBen(), b.getSurnameBen(), b.getPhoneBen(), b.getIDNP(), b.getAddressBen(), b.getEmailBen(), String.valueOf(b.getLocalityID()),b.getEnvironment(), String.valueOf(b.getCardID())};
-
             data.add(beneficiar);
         }
 

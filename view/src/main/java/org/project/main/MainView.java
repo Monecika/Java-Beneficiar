@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainView extends View {
     private final MainController mainController;
 
@@ -27,9 +28,16 @@ public class MainView extends View {
     private JPanel bodyPanel;
     private JButton logoButton;
     private JPanel header;
+
+    private JMenuItem filterName;
+    private JMenuItem filterSurname;
+    private JMenuItem filterLocality;
+
     private boolean isDarkTheme = false;
     private boolean isNameSortable = false;
     private boolean isSurnameSortable = false;
+    private boolean isLocalitySortable = false;
+
     private TableRowSorter<DefaultTableModel> sorter;
 
     public MainView(Controller controller, MainController mainController) {
@@ -45,6 +53,15 @@ public class MainView extends View {
         logoButton = mainComponents.getLogoButton();
         logoButton.setIcon(iconDark);
         logoButton.addActionListener(e -> changeTheme());
+
+        filterName = mainComponents.getFilterName();
+        filterName.addActionListener(e -> setNameSortable());
+
+        filterSurname = mainComponents.getFilterSurname();
+        filterSurname.addActionListener(e -> setSurnameSortable());
+
+        filterLocality = mainComponents.getFilterRegion();
+        filterLocality.addActionListener(e -> setLocalitySortable());
 
         header = mainComponents.getHeader();
         header.add(mainComponents.getLogo());
@@ -91,7 +108,6 @@ public class MainView extends View {
         }
 
         sorter.setSortable(0, true);
-
         table.getColumnModel().getColumn(6).setPreferredWidth(200);
 
         JPanel bodyPanel = new JPanel();
@@ -118,15 +134,22 @@ public class MainView extends View {
 
     private void setNameSortable() {
         isNameSortable = !isNameSortable;
-        JMenuItem filterName = mainComponents.getFilterName();
+        filterName = mainComponents.getFilterName();
         filterName.setText(mainController.addOrRemoveTick(filterName.getText(), isNameSortable));
         sorter.setSortable(1, isNameSortable);
     }
 
     private void setSurnameSortable() {
         isSurnameSortable = !isSurnameSortable;
-        JMenuItem filterSurname = mainComponents.getFilterSurname();
+        filterSurname = mainComponents.getFilterSurname();
         filterSurname.setText(mainController.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
         sorter.setSortable(2, isSurnameSortable);
+    }
+
+    private void setLocalitySortable() {
+        isLocalitySortable = !isLocalitySortable;
+        filterLocality = mainComponents.getFilterRegion();
+        filterLocality.setText(mainController.addOrRemoveTick(filterLocality.getText(), isLocalitySortable));
+        sorter.setSortable(7, isLocalitySortable);
     }
 }
