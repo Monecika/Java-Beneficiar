@@ -8,14 +8,11 @@ import javax.swing.*;
 public class Controller {
     private final Model model;
 
-    private final LoginController loginController;
-    private final MainController mainController;
     private final CreateImage createImage;
 
     public Controller(Model model) {
         this.model = model;
-        this.loginController = new LoginController(model);
-        this.mainController = new MainController(model);
+
         this.createImage = new CreateImage();
     }
 
@@ -31,15 +28,16 @@ public class Controller {
     }
 
     public String getDarkIcon() {
-        return model.getProperty("DARK_ICON_PATH");
+        return ConfigLoader.getProperty("DARK_ICON_PATH");
     }
 
     private String getLightIcon() {
-        return model.getProperty("LIGHT_ICON_PATH");
+        return ConfigLoader.getProperty("LIGHT_ICON_PATH");
     }
 
-    public String addOrRemoveTick(String text, boolean value) {
-        return mainController.addOrRemoveTick(text, value);
-    }
+    public String returnData(){
+        String data = null;
 
+        return data;
+    }
 }

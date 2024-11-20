@@ -1,12 +1,10 @@
 package org.project.loginModel;
 
-import org.project.ConfigLoader;
+import org.project.Model;
 
-public class LoginModel {
-    private final ConfigLoader configLoader;
+public class LoginModel extends Model {
 
     public LoginModel() {
-        this.configLoader = new ConfigLoader();
     }
 
 }

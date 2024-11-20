@@ -3,6 +3,7 @@ package org.project.main;
 import org.project.Controller;
 import org.project.View;
 import org.project.main.components.init.MainComponents;
+import org.project.mainController.MainController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -12,6 +13,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 public class MainView extends View {
+    private final MainController mainController;
+
     private final Color grayColor = new Color(78, 78, 78);
     private final MainComponents mainComponents = new MainComponents();
     private final ImageIcon iconDark = controller.getDarkImageIcon();
@@ -26,8 +29,9 @@ public class MainView extends View {
     private boolean isSurnameSortable = false;
     private TableRowSorter<DefaultTableModel> sorter;
 
-    public MainView(Controller controller) {
+    public MainView(Controller controller, MainController mainController) {
         super(controller);
+        this.mainController = mainController;
     }
 
     public void init() {
@@ -53,40 +57,39 @@ public class MainView extends View {
         frame.setVisible(true);
     }
 
-    private JPanel initBody() {
-        String[][] data = {
-                {"1", "John", "Doe", "123 Main St", "ID001", "555-1234", "New York", "NY10001", "1234567890", "Operations"},
-                {"2", "Jane", "Smith", "456 Oak St", "ID002", "555-5678", "Los Angeles", "LA90001", "9876543210", "Operations"},
-                {"3", "Alice", "Johnson", "789 Pine St", "ID003", "555-9876", "Chicago", "CH60601", "4567891234", "Operations"}
-        };
-        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Address", "DocumentID", "Phone", "Location", "Location Code", "CardNumber", "Operations"};
+        private JPanel initBody() {
+            String[][] data = {
 
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        JTable table = new JTable(model);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
+            };
+            String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Address", "IDNP", "Phone", "Email", "Locality", "CardNumber", "Operations"};
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1000, 600));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            DefaultTableModel model = new DefaultTableModel(data, columnNames);
+            JTable table = new JTable(model);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            table.setRowSorter(sorter);
+            table.setDefaultEditor(Object.class, null);
+            sorter = new TableRowSorter<>(model);
 
-        TableColumnModel tableColumnModel = table.getColumnModel();
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            JScrollPane scrollPane = new JScrollPane(table);
+            scrollPane.setPreferredSize(new Dimension(1000, 600));
+            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-            tableColumnModel.getColumn(i).setResizable(false);
-            sorter.setSortable(i, false);
+            TableColumnModel tableColumnModel = table.getColumnModel();
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+                tableColumnModel.getColumn(i).setResizable(false);
+                sorter.setSortable(i, false);
+            }
+            sorter.setSortable(0, true);
+
+            JPanel bodyPanel = new JPanel();
+            bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+            bodyPanel.add(scrollPane);
+            return bodyPanel;
         }
-        sorter.setSortable(0, true);
-
-        JPanel bodyPanel = new JPanel();
-        bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
-        bodyPanel.add(scrollPane);
-        return bodyPanel;
-    }
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;
@@ -106,14 +109,14 @@ public class MainView extends View {
     private void setNameSortable() {
         isNameSortable = !isNameSortable;
         JMenuItem filterName = mainComponents.getFilterName();
-        filterName.setText(controller.addOrRemoveTick(filterName.getText(), isNameSortable));
+        filterName.setText(mainController.addOrRemoveTick(filterName.getText(), isNameSortable));
         sorter.setSortable(1, isNameSortable);
     }
 
     private void setSurnameSortable() {
         isSurnameSortable = !isSurnameSortable;
         JMenuItem filterSurname = mainComponents.getFilterSurname();
-        filterSurname.setText(controller.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
+        filterSurname.setText(mainController.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
         sorter.setSortable(2, isSurnameSortable);
     }
 }

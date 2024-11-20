@@ -1,17 +1,26 @@
 package org.project;
 
 import org.project.login.LoginView;
+import org.project.loginController.LoginController;
+import org.project.loginModel.LoginModel;
 import org.project.main.MainView;
+import org.project.mainController.MainController;
+import org.project.mainModel.MainModel;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
         Model model = new Model();
-        Controller controller = new Controller(model);
+        LoginModel loginModel = new LoginModel();
+        MainModel mainModel = new MainModel();
 
-        MainView mainView = new MainView(controller);
-        LoginView loginView = new LoginView(controller);
+        Controller controller = new Controller(model);
+        LoginController loginController = new LoginController(model, loginModel);
+        MainController mainController = new MainController(model, mainModel);
+
+        MainView mainView = new MainView(controller, mainController);
+        LoginView loginView = new LoginView(controller, loginController);
 
         SwingUtilities.invokeLater(() -> mainView.init());
     }

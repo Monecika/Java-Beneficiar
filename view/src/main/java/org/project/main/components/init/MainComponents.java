@@ -50,7 +50,6 @@ public class MainComponents {
 
         logo = configureMainComponents.initLogo();
         homeMenu = menus.initHomeMenu();
-//        System.out.println(123);
         editMenu = menus.initEditMenu();
         filterMenu = menus.initFilterMenu();
         viewMenu = menus.initViewMenu();
