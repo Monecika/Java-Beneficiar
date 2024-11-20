@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeneficiariesDAOImplement implements BeneficiariesDAO {
-    private final static String SQL_SELECT = getProperty();
-    private final static String SQL_INSERT = getProperty();
-    private final static String SQL_UPDATE = getProperty();
-    private final static String SQL_DELETE = getProperty();
+    private final static String SQL_SELECT = ConfigLoader.getProperty("SQL_SELECT_BENEFICIARIES");
+    private final static String SQL_INSERT = ConfigLoader.getProperty("SQL_INSERT_BENEFICIARIES");
+    private final static String SQL_UPDATE = ConfigLoader.getProperty("SQL_UPDATE_BENEFICIARIES");
+    private final static String SQL_DELETE = ConfigLoader.getProperty("SQL_DELETE_BENEFICIARIES");
 
     public BeneficiariesDAOImplement() {
     }
@@ -67,12 +67,5 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     @Override
     public void delete(Beneficiaries beneficiaries) throws SQLException {
 
-    }
-
-    private static String getProperty(String property) {
-        ConfigLoader config = new ConfigLoader();
-        config.getProperty(property);
-
-        return config.getProperty(property);
     }
 }
