@@ -8,6 +8,7 @@ import org.project.mainController.MainController;
 import org.project.mainModel.MainModel;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,6 +23,12 @@ public class Main {
         MainView mainView = new MainView(controller, mainController);
         LoginView loginView = new LoginView(controller, loginController);
 
-        SwingUtilities.invokeLater(() -> mainView.init());
+        SwingUtilities.invokeLater(() -> {
+            try {
+                mainView.init();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

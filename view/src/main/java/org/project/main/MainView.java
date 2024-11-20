@@ -11,6 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainView extends View {
     private final MainController mainController;
@@ -34,7 +37,7 @@ public class MainView extends View {
         this.mainController = mainController;
     }
 
-    public void init() {
+    public void init() throws SQLException {
         frame = new JFrame("Beneficiaries");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -57,39 +60,46 @@ public class MainView extends View {
         frame.setVisible(true);
     }
 
-        private JPanel initBody() {
-            String[][] data = {
+    private JPanel initBody() throws SQLException {
+        List<String[]> data = mainController.returnData();
 
-            };
-            String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Address", "IDNP", "Phone", "Email", "Locality", "CardNumber", "Operations"};
-
-            DefaultTableModel model = new DefaultTableModel(data, columnNames);
-            JTable table = new JTable(model);
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-            table.setRowSorter(sorter);
-            table.setDefaultEditor(Object.class, null);
-            sorter = new TableRowSorter<>(model);
-
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setPreferredSize(new Dimension(1000, 600));
-            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-            TableColumnModel tableColumnModel = table.getColumnModel();
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-            for (int i = 0; i < table.getColumnCount(); i++) {
-                tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-                tableColumnModel.getColumn(i).setResizable(false);
-                sorter.setSortable(i, false);
-            }
-            sorter.setSortable(0, true);
-
-            JPanel bodyPanel = new JPanel();
-            bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
-            bodyPanel.add(scrollPane);
-            return bodyPanel;
+        if (data == null || data.isEmpty()) {
+            data = new ArrayList<>();
         }
+
+        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
+
+        DefaultTableModel model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
+        JTable table = new JTable(model);
+
+        sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+        table.setDefaultEditor(Object.class, null);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1500, 600));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        TableColumnModel tableColumnModel = table.getColumnModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+            tableColumnModel.getColumn(i).setResizable(false);
+            sorter.setSortable(i, false);
+        }
+
+        sorter.setSortable(0, true);
+
+        table.getColumnModel().getColumn(6).setPreferredWidth(200);
+
+        JPanel bodyPanel = new JPanel();
+        bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+        bodyPanel.add(scrollPane);
+        return bodyPanel;
+    }
+
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;

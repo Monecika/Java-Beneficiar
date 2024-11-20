@@ -28,16 +28,10 @@ public class Controller {
     }
 
     public String getDarkIcon() {
-        return ConfigLoader.getProperty("DARK_ICON_PATH");
+        return ConfigLoader.getProperty("img.DARK_ICON_PATH");
     }
 
     private String getLightIcon() {
-        return ConfigLoader.getProperty("LIGHT_ICON_PATH");
-    }
-
-    public String returnData(){
-        String data = null;
-
-        return data;
+        return ConfigLoader.getProperty("img.LIGHT_ICON_PATH");
     }
 }

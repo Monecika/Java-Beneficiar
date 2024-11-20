@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeneficiariesDAOImplement implements BeneficiariesDAO {
-    private final static String SQL_SELECT = ConfigLoader.getProperty("SQL_SELECT_BENEFICIARIES");
-    private final static String SQL_INSERT = ConfigLoader.getProperty("SQL_INSERT_BENEFICIARIES");
-    private final static String SQL_UPDATE = ConfigLoader.getProperty("SQL_UPDATE_BENEFICIARIES");
-    private final static String SQL_DELETE = ConfigLoader.getProperty("SQL_DELETE_BENEFICIARIES");
+    private final static String SQL_SELECT = ConfigLoader.getProperty("sql.SQL_SELECT_BENEFICIARIES");
+    private final static String SQL_INSERT = ConfigLoader.getProperty("sql.SQL_INSERT_BENEFICIARIES");
+    private final static String SQL_UPDATE = ConfigLoader.getProperty("sql.SQL_UPDATE_BENEFICIARIES");
+    private final static String SQL_DELETE = ConfigLoader.getProperty("sql.SQL_DELETE_BENEFICIARIES");
 
     public BeneficiariesDAOImplement() {
     }
