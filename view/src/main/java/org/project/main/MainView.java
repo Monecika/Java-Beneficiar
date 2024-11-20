@@ -3,6 +3,7 @@ package org.project.main;
 import org.project.Controller;
 import org.project.View;
 import org.project.main.components.init.MainComponents;
+import org.project.mainController.MainController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -12,6 +13,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 public class MainView extends View {
+    private final MainController mainController;
+
     private final Color grayColor = new Color(78, 78, 78);
     private final MainComponents mainComponents = new MainComponents();
     private final ImageIcon iconDark = controller.getDarkImageIcon();
@@ -26,8 +29,9 @@ public class MainView extends View {
     private boolean isSurnameSortable = false;
     private TableRowSorter<DefaultTableModel> sorter;
 
-    public MainView(Controller controller) {
+    public MainView(Controller controller, MainController mainController) {
         super(controller);
+        this.mainController = mainController;
     }
 
     public void init() {
@@ -105,14 +109,14 @@ public class MainView extends View {
     private void setNameSortable() {
         isNameSortable = !isNameSortable;
         JMenuItem filterName = mainComponents.getFilterName();
-        filterName.setText(controller.addOrRemoveTick(filterName.getText(), isNameSortable));
+        filterName.setText(mainController.addOrRemoveTick(filterName.getText(), isNameSortable));
         sorter.setSortable(1, isNameSortable);
     }
 
     private void setSurnameSortable() {
         isSurnameSortable = !isSurnameSortable;
         JMenuItem filterSurname = mainComponents.getFilterSurname();
-        filterSurname.setText(controller.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
+        filterSurname.setText(mainController.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
         sorter.setSortable(2, isSurnameSortable);
     }
 }

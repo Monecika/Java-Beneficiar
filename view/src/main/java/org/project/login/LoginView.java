@@ -4,11 +4,14 @@ import org.project.Controller;
 import org.project.View;
 import org.project.login.components.init.Panels;
 import org.project.login.components.init.RegisterComponents;
+import org.project.loginController.LoginController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginView extends View {
+    private final LoginController loginController;
+
     private final RegisterComponents components;
     private final Panels panels;
 
@@ -25,8 +28,10 @@ public class LoginView extends View {
 
     private boolean isDarkTheme = false;
 
-    public LoginView(Controller controller) {
+    public LoginView(Controller controller, LoginController loginController) {
         super(controller);
+        this.loginController = loginController;
+
         this.components = new RegisterComponents();
         this.panels = new Panels();
     }

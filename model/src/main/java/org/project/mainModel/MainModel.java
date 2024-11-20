@@ -1,12 +1,11 @@
 package org.project.mainModel;
 
 import org.project.ConfigLoader;
+import org.project.Model;
 
-public class MainModel {
-    private final ConfigLoader configLoader;
+public class MainModel extends Model {
 
     public MainModel() {
-        this.configLoader = new ConfigLoader();
     }
 
 }

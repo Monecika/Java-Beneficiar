@@ -1,7 +1,5 @@
 package org.project.DAO;
 
-import org.project.ConfigLoader;
-
 import java.sql.SQLException;
 import java.util.List;
 
