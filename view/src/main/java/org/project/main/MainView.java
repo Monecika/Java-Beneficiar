@@ -3,6 +3,8 @@ package org.project.main;
 import org.project.Controller;
 import org.project.View;
 import org.project.main.components.init.MainComponents;
+import org.project.main.components.table.AddBenOptionPane;
+import org.project.main.components.table.DeleteButtonRenderer;
 import org.project.mainController.MainController;
 
 import javax.swing.*;
@@ -11,10 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MainView extends View {
     private final MainController mainController;
@@ -23,15 +26,19 @@ public class MainView extends View {
     private final MainComponents mainComponents = new MainComponents();
     private final ImageIcon iconDark = controller.getDarkImageIcon();
     private final ImageIcon iconLight = controller.getLightImageIcon();
+    private final ImageIcon deleteIcon;
 
     private JFrame frame;
     private JPanel bodyPanel;
-    private JButton logoButton;
     private JPanel header;
+    private JButton logoButton;
+    private JButton deleteButton;
 
     private JMenuItem filterName;
     private JMenuItem filterSurname;
     private JMenuItem filterLocality;
+
+    private JMenuItem add;
 
     private boolean isDarkTheme = false;
     private boolean isNameSortable = false;
@@ -43,6 +50,9 @@ public class MainView extends View {
     public MainView(Controller controller, MainController mainController) {
         super(controller);
         this.mainController = mainController;
+
+        deleteIcon = mainController.getDeleteImageIcon();
+
     }
 
     public void init() throws SQLException {
@@ -62,6 +72,9 @@ public class MainView extends View {
 
         filterLocality = mainComponents.getFilterRegion();
         filterLocality.addActionListener(e -> setLocalitySortable());
+
+        add = mainComponents.getAdd();
+        add.addActionListener(e -> addBenPane());
 
         header = mainComponents.getHeader();
         header.add(mainComponents.getLogo());
@@ -87,11 +100,14 @@ public class MainView extends View {
         String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
 
         DefaultTableModel model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
+
         JTable table = new JTable(model);
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
+
         table.setDefaultEditor(Object.class, null);
+        table.setRowHeight(30);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1500, 600));
@@ -108,7 +124,37 @@ public class MainView extends View {
         }
 
         sorter.setSortable(0, true);
-        table.getColumnModel().getColumn(6).setPreferredWidth(200);
+        tableColumnModel.getColumn(6).setPreferredWidth(200);
+
+        tableColumnModel.getColumn(10).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+
+        table.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = table.getSelectedColumn();
+                int row = table.getSelectedRow();
+                if (column == 10 && row != -1) {
+                    int modelRow = table.convertRowIndexToModel(row);
+                    model.removeRow(modelRow);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
 
         JPanel bodyPanel = new JPanel();
         bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
@@ -151,5 +197,9 @@ public class MainView extends View {
         filterLocality = mainComponents.getFilterRegion();
         filterLocality.setText(mainController.addOrRemoveTick(filterLocality.getText(), isLocalitySortable));
         sorter.setSortable(7, isLocalitySortable);
+    }
+
+    private void addBenPane(){
+        AddBenOptionPane benOptionPane = new AddBenOptionPane();
     }
 }
