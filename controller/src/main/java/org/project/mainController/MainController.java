@@ -50,7 +50,7 @@ public class MainController extends Controller {
     }
 
     private String getDeleteIcon() {
-        return ConfigLoader.getProperty("img.DARK_ICON_PATH");
+        return ConfigLoader.getProperty("img.DELETE_ICON_PATH");
     }
 
 }
