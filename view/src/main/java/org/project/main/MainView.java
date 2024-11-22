@@ -13,8 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +39,10 @@ public class MainView extends View {
     private JMenuItem add;
 
     private boolean isDarkTheme = false;
-    private boolean isNameSortable = false;
-    private boolean isSurnameSortable = false;
-    private boolean isLocalitySortable = false;
 
     private TableRowSorter<DefaultTableModel> sorter;
+    private JTable table;
+    private DefaultTableModel model;
 
     public MainView(Controller controller, MainController mainController) {
         super(controller);
@@ -65,13 +62,13 @@ public class MainView extends View {
         logoButton.addActionListener(e -> changeTheme());
 
         filterName = mainComponents.getFilterName();
-        filterName.addActionListener(e -> setNameSortable());
+        filterName.addActionListener(e -> mainController.setNameSortable(filterName, sorter));
 
         filterSurname = mainComponents.getFilterSurname();
-        filterSurname.addActionListener(e -> setSurnameSortable());
+        filterSurname.addActionListener(e -> mainController.setSurnameSortable(filterSurname, sorter));
 
         filterLocality = mainComponents.getFilterRegion();
-        filterLocality.addActionListener(e -> setLocalitySortable());
+        filterLocality.addActionListener(e -> mainController.setLocalitySortable(filterLocality, sorter));
 
         add = mainComponents.getAdd();
         add.addActionListener(e -> addBenPane());
@@ -99,9 +96,9 @@ public class MainView extends View {
 
         String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
 
-        DefaultTableModel model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
+        model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
 
-        JTable table = new JTable(model);
+        table = new JTable(model);
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
@@ -128,33 +125,7 @@ public class MainView extends View {
 
         tableColumnModel.getColumn(10).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
 
-        table.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int column = table.getSelectedColumn();
-                int row = table.getSelectedRow();
-                if (column == 10 && row != -1) {
-                    int modelRow = table.convertRowIndexToModel(row);
-                    model.removeRow(modelRow);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
+        table = mainController.tableMouseListener(table, model);
 
         JPanel bodyPanel = new JPanel();
         bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
@@ -162,6 +133,16 @@ public class MainView extends View {
         return bodyPanel;
     }
 
+    // fix method
+    public void updateTableData(List<String[]> newData, String[] newColumnNames) {
+        model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
+
+        table.revalidate();
+        table.repaint();
+
+        sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+    }
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;
@@ -178,28 +159,8 @@ public class MainView extends View {
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
-    private void setNameSortable() {
-        isNameSortable = !isNameSortable;
-        filterName = mainComponents.getFilterName();
-        filterName.setText(mainController.addOrRemoveTick(filterName.getText(), isNameSortable));
-        sorter.setSortable(1, isNameSortable);
-    }
-
-    private void setSurnameSortable() {
-        isSurnameSortable = !isSurnameSortable;
-        filterSurname = mainComponents.getFilterSurname();
-        filterSurname.setText(mainController.addOrRemoveTick(filterSurname.getText(), isSurnameSortable));
-        sorter.setSortable(2, isSurnameSortable);
-    }
-
-    private void setLocalitySortable() {
-        isLocalitySortable = !isLocalitySortable;
-        filterLocality = mainComponents.getFilterRegion();
-        filterLocality.setText(mainController.addOrRemoveTick(filterLocality.getText(), isLocalitySortable));
-        sorter.setSortable(7, isLocalitySortable);
-    }
-
-    private void addBenPane(){
+    private void addBenPane() {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
+
     }
 }
