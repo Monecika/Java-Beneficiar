@@ -77,10 +77,6 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
         return List.of();
     }
 
-    @Override
-    public void create(DisplayData displayData) throws SQLException {
-
-    }
 
     @Override
     public void add(DisplayData displayData) throws SQLException {
