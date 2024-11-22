@@ -31,4 +31,9 @@ public class CardsDAOImplement implements CardsDAO {
     public void delete(Cards cards) throws SQLException {
 
     }
+
+    @Override
+    public Cards getObject(int id) throws SQLException {
+        return null;
+    }
 }

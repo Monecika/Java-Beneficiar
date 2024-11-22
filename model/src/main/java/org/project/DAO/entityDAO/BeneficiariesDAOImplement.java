@@ -68,4 +68,9 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     public void delete(Beneficiaries beneficiaries) throws SQLException {
 
     }
+
+    @Override
+    public Beneficiaries getObject(int id) throws SQLException {
+        return null;
+    }
 }

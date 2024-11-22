@@ -31,4 +31,9 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
     public void delete(Environments environments) throws SQLException {
 
     }
+
+    @Override
+    public Environments getObject(int id) throws SQLException {
+        return null;
+    }
 }

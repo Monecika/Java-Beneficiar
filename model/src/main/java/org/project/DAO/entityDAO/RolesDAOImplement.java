@@ -31,4 +31,9 @@ public class RolesDAOImplement implements RolesDAO {
     public void delete(Roles roles) throws SQLException {
 
     }
+
+    @Override
+    public Roles getObject(int id) throws SQLException {
+        return null;
+    }
 }

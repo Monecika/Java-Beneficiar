@@ -31,4 +31,9 @@ public class UsersDAOImplement implements UsersDAO {
     public void delete(Users users) throws SQLException {
 
     }
+
+    @Override
+    public Users getObject(int id) throws SQLException {
+        return null;
+    }
 }

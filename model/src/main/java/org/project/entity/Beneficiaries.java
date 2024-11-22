@@ -27,6 +27,8 @@ public class Beneficiaries {
         this.cardID = cardID;
     }
 
+
+
     public String getCodeBen() {
         return codeBen;
     }
