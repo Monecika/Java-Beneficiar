@@ -5,6 +5,9 @@ public class Environments {
     private String environment;
     private int popularityPercentage;
 
+    public Environments() {
+    }
+
     public Environments(int ID, String environment, int popularityPercentage) {
         this.ID = ID;
         this.environment = environment;

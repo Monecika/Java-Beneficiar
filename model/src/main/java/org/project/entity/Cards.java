@@ -1,5 +1,6 @@
 package org.project.entity;
 
+
 import java.sql.Date;
 
 public class Cards {
