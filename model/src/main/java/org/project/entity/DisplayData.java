@@ -27,4 +27,12 @@ public class DisplayData extends Beneficiaries {
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
+
+    @Override
+    public String toString() {
+        return "DisplayData{" +
+                "localityName='" + localityName + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                '}';
+    }
 }

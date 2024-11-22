@@ -2,22 +2,24 @@ package org.project.mainModel;
 
 import org.project.ConfigLoader;
 import org.project.DAO.entityDAO.BeneficiariesDAOImplement;
+import org.project.DAO.entityDAO.DisplayDataDAOImplement;
 import org.project.Model;
 import org.project.entity.Beneficiaries;
+import org.project.entity.DisplayData;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class MainModel extends Model {
-    private final BeneficiariesDAOImplement beneficiariesDAOImplement;
+    private final DisplayDataDAOImplement displayDataDAOImplement;
 
 
     public MainModel() {
-        beneficiariesDAOImplement = new BeneficiariesDAOImplement();
+        displayDataDAOImplement = new DisplayDataDAOImplement();
     }
 
-    public List<Beneficiaries> getBeneficiaries() throws SQLException {
-        return beneficiariesDAOImplement.getAll();
+    public List<DisplayData> getDisplayData() throws SQLException {
+        return displayDataDAOImplement.getAll();
     }
 
 

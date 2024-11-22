@@ -21,25 +21,6 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
     private final CardsDAOImplement cardsDAO;
     private final LocalitiesDAOImplement localitiesDAO;
 
-    // For Beneficiaries
-    private final static String SQL_SELECT_BEN = ConfigLoader.getProperty("sql.SQL_SELECT_BENEFICIARIES");
-    private final static String SQL_INSERT_BEN = ConfigLoader.getProperty("sql.SQL_INSERT_BENEFICIARIES");
-    private final static String SQL_UPDATE_BEN = ConfigLoader.getProperty("sql.SQL_UPDATE_BENEFICIARIES");
-    private final static String SQL_DELETE_BEN = ConfigLoader.getProperty("sql.SQL_DELETE_BENEFICIARIES");
-
-    // For Cards
-    private final static String SQL_SELECT_CARDS = ConfigLoader.getProperty("sql.SQL_SELECT_CARDS");
-    private final static String SQL_INSERT_CARD = ConfigLoader.getProperty("sql.SQL_INSERT_CARD");
-    private final static String SQL_UPDATE_CARD = ConfigLoader.getProperty("sql.SQL_UPDATE_CARD");
-    private final static String SQL_DELETE_CARD = ConfigLoader.getProperty("sql.SQL_DELETE_CARD");
-
-    // For Localities
-    private final static String SQL_SELECT_LOCALITIES = ConfigLoader.getProperty("sql.SQL_SELECT_LOCALITIES");
-    private final static String SQL_INSERT_LOCALITY = ConfigLoader.getProperty("sql.SQL_INSERT_LOCALITY");
-    private final static String SQL_UPDATE_LOCALITY = ConfigLoader.getProperty("sql.SQL_UPDATE_LOCALITY");
-    private final static String SQL_DELETE_LOCALITY = ConfigLoader.getProperty("sql.SQL_DELETE_LOCALITY");
-
-
     public DisplayDataDAOImplement() {
         this.beneficiariesDAO = new BeneficiariesDAOImplement();
         this.cardsDAO = new CardsDAOImplement();
@@ -53,11 +34,12 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
         List<Cards> cardsList = cardsDAO.getAll();
         List<Localities> localitiesList = localitiesDAO.getAll();
 
+        DisplayData displayData = null;
         Beneficiaries beneficiaries = null;
         Localities localities = null;
         Cards cards = null;
 
-        while(beneficiariesList.size()>0) {
+        while (beneficiariesList.size() > 0) {
             beneficiaries = beneficiariesList.get(0);
             int id = beneficiaries.getID();
             String benID = beneficiaries.getCodeBen();
@@ -71,10 +53,16 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
             String environment = beneficiaries.getEnvironment();
             int CardID = beneficiaries.getCardID();
 
+            cards = cardsDAO.getObject(CardID);
+            localities = localitiesDAO.getObject(localityID);
 
+            beneficiariesList.remove(beneficiaries);
+
+            displayData = new DisplayData(id, benID, name, surname, phone, idnp, address, email, localityID, localities.getLocalityName(), environment, CardID, cards.getCardNr());
+            displayDataList.add(displayData);
         }
 
-        return List.of();
+        return displayDataList;
     }
 
 

@@ -6,6 +6,7 @@ import org.project.Controller;
 import org.project.CreateImage;
 import org.project.Model;
 import org.project.entity.Beneficiaries;
+import org.project.entity.DisplayData;
 import org.project.mainModel.MainModel;
 
 import javax.swing.*;
@@ -28,12 +29,13 @@ public class MainController extends Controller {
     }
 
     public List<String[]> returnData() throws SQLException {
+
         List<String[]> data = new ArrayList<>();
 
-        List<Beneficiaries> bens = mainModel.getBeneficiaries();
-        for (Beneficiaries b : bens) {
-            String[] beneficiar = {b.getCodeBen(), b.getNameBen(), b.getSurnameBen(), b.getPhoneBen(), b.getIDNP(), b.getAddressBen(), b.getEmailBen(), String.valueOf(b.getLocalityID()),b.getEnvironment(), String.valueOf(b.getCardID())};
-            data.add(beneficiar);
+        List<DisplayData> displayData = mainModel.getDisplayData();
+        for (DisplayData d : displayData) {
+            String[] display = {d.getCodeBen(), d.getNameBen(), d.getSurnameBen(), d.getPhoneBen(), d.getIDNP(), d.getAddressBen(), d.getEmailBen(), d.getLocalityName(),d.getEnvironment(), d.getCardNumber()};
+            data.add(display);
         }
 
         return data;

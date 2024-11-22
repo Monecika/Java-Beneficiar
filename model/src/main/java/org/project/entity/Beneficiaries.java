@@ -116,4 +116,21 @@ public class Beneficiaries {
     public void setCardID(int cardID) {
         this.cardID = cardID;
     }
+
+    @Override
+    public String toString() {
+        return "Beneficiaries{" +
+                "ID=" + ID +
+                ", codeBen='" + codeBen + '\'' +
+                ", nameBen='" + nameBen + '\'' +
+                ", surnameBen='" + surnameBen + '\'' +
+                ", phoneBen='" + phoneBen + '\'' +
+                ", IDNP='" + IDNP + '\'' +
+                ", addressBen='" + addressBen + '\'' +
+                ", emailBen='" + emailBen + '\'' +
+                ", localityID=" + localityID +
+                ", environment='" + environment + '\'' +
+                ", cardID=" + cardID +
+                '}';
+    }
 }
