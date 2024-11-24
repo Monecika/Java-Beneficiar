@@ -126,66 +126,39 @@ public class MainView extends View {
         }
 
         String[] columnNames = mainController.returnAllColumns();
-
         model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
-
         table = new JTable(model);
+        table.setDefaultEditor(Object.class, null);
+        table.setRowHeight(30);
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
-        table.setDefaultEditor(Object.class, null);
-        table.setRowHeight(30);
+        configureTable(model, table, deleteIcon);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1500, 600));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        TableColumnModel tableColumnModel = table.getColumnModel();
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-            tableColumnModel.getColumn(i).setResizable(false);
-            sorter.setSortable(i, false);
-        }
-
-        sorter.setSortable(0, true);
-        tableColumnModel.getColumn(6).setPreferredWidth(200);
-
-        tableColumnModel.getColumn(10).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
-
-        table = mainController.tableMouseListener(table, model);
-
         JPanel bodyPanel = new JPanel();
         bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
         bodyPanel.add(scrollPane);
+
         return bodyPanel;
     }
 
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
 
-        TableColumnModel tableColumnModel = table.getColumnModel();
-
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-        }
-
-        tableColumnModel.getColumn(6).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+        configureTable(model, table, deleteIcon);
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
         table.revalidate();
         table.repaint();
-
     }
+
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;
@@ -206,4 +179,24 @@ public class MainView extends View {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
 
     }
+
+    private void configureTable(DefaultTableModel model, JTable table, ImageIcon deleteIcon) {
+        TableColumnModel tableColumnModel = table.getColumnModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        int deleteButtonColumnIndex = table.getColumnCount() - 1;
+
+        tableColumnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+        tableColumnModel.getColumn(6).setPreferredWidth(200);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setResizable(false);
+        }
+    }
+
+
 }

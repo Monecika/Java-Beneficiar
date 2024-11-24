@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -51,18 +52,19 @@ public class MainController extends Controller implements MouseListener {
 
     public List<String[]> returnFilteredData() throws SQLException {
         List<String[]> data = returnData();
+        List<String[]> filteredData = new ArrayList<>();
 
         for (String[] d : data) {
-            if (!d[8].equalsIgnoreCase("rural")) data.remove(d);
+            if (d[8].equalsIgnoreCase("rural")) filteredData.add(d);
         }
-        return data;
+        return filteredData;
     }
 
     public List<String[]> returnScepticData() throws SQLException {
         List<String[]> data = new ArrayList<>();
         List<ScepticData> displayData = mainModel.getScepticData();
         for (ScepticData sceptic : displayData) {
-            String[] display = {sceptic.getCodeBen(), sceptic.getNameBen(), sceptic.getSurnameBen(), sceptic.getPhoneBen(), sceptic.getAddressBen(),sceptic.getEmailBen()};
+            String[] display = {sceptic.getCodeBen(), sceptic.getNameBen(), sceptic.getSurnameBen(), sceptic.getPhoneBen(), sceptic.getAddressBen(), sceptic.getEmailBen()};
             data.add(display);
         }
         return data;

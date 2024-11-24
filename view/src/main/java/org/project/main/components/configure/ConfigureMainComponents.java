@@ -33,22 +33,4 @@ public class ConfigureMainComponents {
         return button;
     }
 
-    public void configureTable(DefaultTableModel model, JTable table, ImageIcon deleteIcon) {
-        TableColumnModel tableColumnModel = table.getColumnModel();
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-        }
-
-        if (table.getColumnCount() > 10) {
-            tableColumnModel.getColumn(10).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
-        }
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setResizable(false);
-        }
-    }
-
 }
