@@ -5,7 +5,10 @@ import org.project.DAO.interfaces.CardsDAO;
 import org.project.Database;
 import org.project.entity.Cards;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +23,7 @@ public class CardsDAOImplement implements CardsDAO {
     public List<Cards> getAll() throws SQLException {
         List<Cards> cardsList = new ArrayList<>();
 
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CARDS);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CARDS); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Cards card = extractCard(resultSet);
@@ -34,8 +35,7 @@ public class CardsDAOImplement implements CardsDAO {
 
     @Override
     public void add(Cards card) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_INSERT_CARD)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_CARD)) {
 
             prepareStatement(statement, card);
             statement.executeUpdate();
@@ -44,8 +44,7 @@ public class CardsDAOImplement implements CardsDAO {
 
     @Override
     public void update(Cards card) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_CARD)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_CARD)) {
 
             prepareStatement(statement, card);
             statement.setInt(4, card.getID());
@@ -55,8 +54,7 @@ public class CardsDAOImplement implements CardsDAO {
 
     @Override
     public void delete(Cards card) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CARD)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CARD)) {
 
             statement.setInt(1, card.getID());
             statement.executeUpdate();
@@ -67,8 +65,7 @@ public class CardsDAOImplement implements CardsDAO {
     public Cards getObject(int id) throws SQLException {
         Cards card = null;
 
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CARD)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CARD)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -81,12 +78,7 @@ public class CardsDAOImplement implements CardsDAO {
     }
 
     private Cards extractCard(ResultSet resultSet) throws SQLException {
-        return new Cards(
-                resultSet.getInt("id"),
-                resultSet.getString("cardNr"),
-                resultSet.getString("cardType"),
-                resultSet.getDate("dateExpire")
-        );
+        return new Cards(resultSet.getInt("id"), resultSet.getString("cardNr"), resultSet.getString("cardType"), resultSet.getDate("dateExpire"));
     }
 
     private void prepareStatement(PreparedStatement statement, Cards card) throws SQLException {

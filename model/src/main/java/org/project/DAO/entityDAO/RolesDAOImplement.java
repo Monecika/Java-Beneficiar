@@ -5,7 +5,10 @@ import org.project.DAO.interfaces.RolesDAO;
 import org.project.Database;
 import org.project.entity.Roles;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +24,7 @@ public class RolesDAOImplement implements RolesDAO {
     public List<Roles> getAll() throws SQLException {
         List<Roles> rolesList = new ArrayList<>();
 
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Roles role = extractRole(resultSet);
@@ -36,8 +37,7 @@ public class RolesDAOImplement implements RolesDAO {
 
     @Override
     public void add(Roles role) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
             statement.setString(1, role.getRole());
             statement.executeUpdate();
@@ -46,8 +46,7 @@ public class RolesDAOImplement implements RolesDAO {
 
     @Override
     public void update(Roles role) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
 
             statement.setString(1, role.getRole());
             statement.setInt(2, role.getID());
@@ -57,8 +56,7 @@ public class RolesDAOImplement implements RolesDAO {
 
     @Override
     public void delete(Roles role) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
 
             statement.setInt(1, role.getID());
             statement.executeUpdate();
@@ -69,8 +67,7 @@ public class RolesDAOImplement implements RolesDAO {
     public Roles getObject(int id) throws SQLException {
         Roles role = null;
 
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -84,9 +81,6 @@ public class RolesDAOImplement implements RolesDAO {
     }
 
     private Roles extractRole(ResultSet resultSet) throws SQLException {
-        return new Roles(
-                resultSet.getInt("id"),
-                resultSet.getString("rolename")
-        );
+        return new Roles(resultSet.getInt("id"), resultSet.getString("rolename"));
     }
 }

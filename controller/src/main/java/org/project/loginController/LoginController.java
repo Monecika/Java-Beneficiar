@@ -1,7 +1,6 @@
 package org.project.loginController;
 
 import org.project.Controller;
-import org.project.CreateImage;
 import org.project.Model;
 import org.project.loginModel.LoginModel;
 

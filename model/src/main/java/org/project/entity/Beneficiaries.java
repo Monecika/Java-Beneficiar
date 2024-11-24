@@ -28,9 +28,12 @@ public class Beneficiaries {
     }
 
 
-
     public String getCodeBen() {
         return codeBen;
+    }
+
+    public void setCodeBen(String codeBen) {
+        this.codeBen = codeBen;
     }
 
     public int getID() {
@@ -39,10 +42,6 @@ public class Beneficiaries {
 
     public void setID(int ID) {
         this.ID = ID;
-    }
-
-    public void setCodeBen(String codeBen) {
-        this.codeBen = codeBen;
     }
 
     public String getNameBen() {
@@ -119,18 +118,6 @@ public class Beneficiaries {
 
     @Override
     public String toString() {
-        return "Beneficiaries{" +
-                "ID=" + ID +
-                ", codeBen='" + codeBen + '\'' +
-                ", nameBen='" + nameBen + '\'' +
-                ", surnameBen='" + surnameBen + '\'' +
-                ", phoneBen='" + phoneBen + '\'' +
-                ", IDNP='" + IDNP + '\'' +
-                ", addressBen='" + addressBen + '\'' +
-                ", emailBen='" + emailBen + '\'' +
-                ", localityID=" + localityID +
-                ", environment='" + environment + '\'' +
-                ", cardID=" + cardID +
-                '}';
+        return "Beneficiaries{" + "ID=" + ID + ", codeBen='" + codeBen + '\'' + ", nameBen='" + nameBen + '\'' + ", surnameBen='" + surnameBen + '\'' + ", phoneBen='" + phoneBen + '\'' + ", IDNP='" + IDNP + '\'' + ", addressBen='" + addressBen + '\'' + ", emailBen='" + emailBen + '\'' + ", localityID=" + localityID + ", environment='" + environment + '\'' + ", cardID=" + cardID + '}';
     }
 }

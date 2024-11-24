@@ -5,11 +5,12 @@ import java.awt.*;
 
 public class Menus {
     private final MainComponents mainComponents;
+
     public Menus(MainComponents mainComponents) {
         this.mainComponents = mainComponents;
     }
 
-    public JMenuItem initMenuItem(String name){
+    public JMenuItem initMenuItem(String name) {
         JMenuItem item = new JMenuItem(name);
         return item;
     }

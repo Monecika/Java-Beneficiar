@@ -1,8 +1,5 @@
 package org.project;
 
-import org.project.loginController.LoginController;
-import org.project.mainController.MainController;
-
 import javax.swing.*;
 
 public class Controller {

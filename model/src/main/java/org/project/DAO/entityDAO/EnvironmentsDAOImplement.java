@@ -5,7 +5,10 @@ import org.project.DAO.interfaces.EnvironmentsDAO;
 import org.project.Database;
 import org.project.entity.Environments;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +22,7 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
     @Override
     public List<Environments> getAll() throws SQLException {
         List<Environments> environmentsList = new ArrayList<>();
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Environments environment = extractEnvironment(resultSet);
@@ -33,8 +34,7 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
 
     @Override
     public void add(Environments environments) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
             prepareStatement(statement, environments);
             statement.executeUpdate();
@@ -43,8 +43,7 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
 
     @Override
     public void update(Environments environments) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
 
             prepareStatement(statement, environments);
             statement.setInt(3, environments.getID());
@@ -54,8 +53,7 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
 
     @Override
     public void delete(Environments environments) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
 
             statement.setInt(1, environments.getID());
             statement.executeUpdate();
@@ -65,8 +63,7 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
     @Override
     public Environments getObject(int id) throws SQLException {
         Environments environment = null;
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ENV)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ENV)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -79,11 +76,7 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
     }
 
     private Environments extractEnvironment(ResultSet resultSet) throws SQLException {
-        return new Environments(
-                resultSet.getInt("id"),
-                resultSet.getString("environmenttype"),
-                resultSet.getInt("popularitypercentage")
-        );
+        return new Environments(resultSet.getInt("id"), resultSet.getString("environmenttype"), resultSet.getInt("popularitypercentage"));
     }
 
     private void prepareStatement(PreparedStatement statement, Environments environments) throws SQLException {

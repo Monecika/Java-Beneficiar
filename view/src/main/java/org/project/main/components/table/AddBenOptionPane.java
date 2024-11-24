@@ -24,10 +24,8 @@ public class AddBenOptionPane {
     private final JLabel localityLabel;
     private final JLabel cardLabel;
     private final JLabel emailLabel;
-
-    private int result;
-
     JPanel panelOff;
+    private int result;
 
     public AddBenOptionPane() {
 
@@ -56,11 +54,11 @@ public class AddBenOptionPane {
         AddBenOption();
     }
 
-    public void AddBenOption(){
+    public void AddBenOption() {
         result = JOptionPane.showConfirmDialog(null, panelOff, "Add Ben", JOptionPane.OK_CANCEL_OPTION);
     }
 
-    private JPanel addValues(){
+    private JPanel addValues() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 

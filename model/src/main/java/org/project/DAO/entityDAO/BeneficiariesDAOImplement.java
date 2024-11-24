@@ -5,7 +5,10 @@ import org.project.DAO.interfaces.BeneficiariesDAO;
 import org.project.Database;
 import org.project.entity.Beneficiaries;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +23,7 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     public List<Beneficiaries> getAll() throws SQLException {
         List<Beneficiaries> beneficiariesList = new ArrayList<>();
 
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Beneficiaries beneficiary = extractBeneficiary(resultSet);
@@ -34,8 +35,7 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
 
     @Override
     public void add(Beneficiaries beneficiary) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
             prepareStatement(statement, beneficiary);
             statement.executeUpdate();
@@ -44,8 +44,7 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
 
     @Override
     public void update(Beneficiaries beneficiary) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
 
             prepareStatement(statement, beneficiary);
             statement.setInt(11, beneficiary.getID());
@@ -55,8 +54,7 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
 
     @Override
     public void delete(Beneficiaries beneficiary) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
 
             statement.setInt(1, beneficiary.getID());
             statement.executeUpdate();
@@ -67,8 +65,7 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     public Beneficiaries getObject(int id) throws SQLException {
         Beneficiaries beneficiary = null;
 
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -81,19 +78,7 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     }
 
     private Beneficiaries extractBeneficiary(ResultSet resultSet) throws SQLException {
-        return new Beneficiaries(
-                resultSet.getInt("id"),
-                resultSet.getString("nrben"),
-                resultSet.getString("name"),
-                resultSet.getString("surname"),
-                resultSet.getString("phone"),
-                resultSet.getString("idnp"),
-                resultSet.getString("address"),
-                resultSet.getString("email"),
-                resultSet.getInt("localityid"),
-                resultSet.getString("environment"),
-                resultSet.getInt("cardid")
-        );
+        return new Beneficiaries(resultSet.getInt("id"), resultSet.getString("nrben"), resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("phone"), resultSet.getString("idnp"), resultSet.getString("address"), resultSet.getString("email"), resultSet.getInt("localityid"), resultSet.getString("environment"), resultSet.getInt("cardid"));
     }
 
     private void prepareStatement(PreparedStatement statement, Beneficiaries beneficiary) throws SQLException {
