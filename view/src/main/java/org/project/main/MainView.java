@@ -36,6 +36,10 @@ public class MainView extends View {
     private JMenuItem filterSurname;
     private JMenuItem filterLocality;
 
+    private JMenuItem viewAll;
+    private JMenuItem viewRural;
+    private JMenuItem viewSceptic;
+
     private JMenuItem add;
 
     private boolean isDarkTheme = false;
@@ -70,6 +74,33 @@ public class MainView extends View {
         filterLocality = mainComponents.getFilterRegion();
         filterLocality.addActionListener(e -> mainController.setLocalitySortable(filterLocality, sorter));
 
+        viewAll = mainComponents.getViewAll();
+        viewAll.addActionListener(e -> {
+            try {
+                updateTableData(mainController.returnData(), mainController.returnAllColumns());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        viewRural = mainComponents.getViewRural();
+        viewRural.addActionListener(e -> {
+            try {
+                updateTableData(mainController.returnFilteredData(), mainController.returnAllColumns());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        viewSceptic = mainComponents.getViewSceptic();
+        viewSceptic.addActionListener(e -> {
+            try {
+                updateTableData(mainController.returnScepticData(), mainController.returnScepticDataColumns());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         add = mainComponents.getAdd();
         add.addActionListener(e -> addBenPane());
 
@@ -94,7 +125,7 @@ public class MainView extends View {
             data = new ArrayList<>();
         }
 
-        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
+        String[] columnNames = mainController.returnAllColumns();
 
         model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
 
@@ -133,15 +164,27 @@ public class MainView extends View {
         return bodyPanel;
     }
 
-    // fix method
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
+
+        TableColumnModel tableColumnModel = table.getColumnModel();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        tableColumnModel.getColumn(6).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+
+        sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
 
         table.revalidate();
         table.repaint();
 
-        sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
     }
 
     private void changeTheme() {

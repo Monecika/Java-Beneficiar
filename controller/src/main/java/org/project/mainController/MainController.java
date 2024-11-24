@@ -5,8 +5,8 @@ import org.project.ConfigLoader;
 import org.project.Controller;
 import org.project.CreateImage;
 import org.project.Model;
-import org.project.entity.Beneficiaries;
 import org.project.entity.DisplayData;
+import org.project.entity.ScepticData;
 import org.project.mainModel.MainModel;
 
 import javax.swing.*;
@@ -47,6 +47,37 @@ public class MainController extends Controller implements MouseListener {
         }
 
         return data;
+    }
+
+    public List<String[]> returnFilteredData() throws SQLException {
+        List<String[]> data = returnData();
+
+        for (String[] d : data) {
+            if (!d[8].equalsIgnoreCase("rural")) data.remove(d);
+        }
+        return data;
+    }
+
+    public List<String[]> returnScepticData() throws SQLException {
+        List<String[]> data = new ArrayList<>();
+        List<ScepticData> displayData = mainModel.getScepticData();
+        for (ScepticData sceptic : displayData) {
+            String[] display = {sceptic.getCodeBen(), sceptic.getNameBen(), sceptic.getSurnameBen(), sceptic.getPhoneBen(), sceptic.getAddressBen(),sceptic.getEmailBen()};
+            data.add(display);
+        }
+        return data;
+    }
+
+    public String[] returnAllColumns() {
+        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
+
+        return columnNames;
+    }
+
+    public String[] returnScepticDataColumns() {
+        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "Address", "Email", "Operations"};
+
+        return columnNames;
     }
 
     public String addOrRemoveTick(String text, boolean value) {

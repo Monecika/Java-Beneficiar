@@ -13,6 +13,16 @@ public class Beneficiaries {
     private String environment;
     private int cardID;
 
+    public Beneficiaries(int ID, String codeBen, String nameBen, String surnameBen, String phoneBen, String addressBen, String emailBen) {
+        this.ID = ID;
+        this.codeBen = codeBen;
+        this.nameBen = nameBen;
+        this.surnameBen = surnameBen;
+        this.phoneBen = phoneBen;
+        this.addressBen = addressBen;
+        this.emailBen = emailBen;
+    }
+
     public Beneficiaries(int ID, String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID, String environment, int cardID) {
         this.ID = ID;
         this.codeBen = codeBen;
