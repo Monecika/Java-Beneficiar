@@ -49,6 +49,7 @@ public class Menus {
     public JMenu initViewMenu() {
         JMenu viewMenu = new JMenu("View");
 
+        viewMenu.add(mainComponents.getViewAll());
         viewMenu.add(mainComponents.getViewRural());
         viewMenu.add(mainComponents.getViewSceptic());
         viewMenu.add(mainComponents.getExport());

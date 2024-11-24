@@ -36,6 +36,10 @@ public class MainView extends View {
     private JMenuItem filterSurname;
     private JMenuItem filterLocality;
 
+    private JMenuItem viewAll;
+    private JMenuItem viewRural;
+    private JMenuItem viewSceptic;
+
     private JMenuItem add;
 
     private boolean isDarkTheme = false;
@@ -70,6 +74,33 @@ public class MainView extends View {
         filterLocality = mainComponents.getFilterRegion();
         filterLocality.addActionListener(e -> mainController.setLocalitySortable(filterLocality, sorter));
 
+        viewAll = mainComponents.getViewAll();
+        viewAll.addActionListener(e -> {
+            try {
+                updateTableData(mainController.returnData(), mainController.returnAllColumns());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        viewRural = mainComponents.getViewRural();
+        viewRural.addActionListener(e -> {
+            try {
+                updateTableData(mainController.returnFilteredData(), mainController.returnAllColumns());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        viewSceptic = mainComponents.getViewSceptic();
+        viewSceptic.addActionListener(e -> {
+            try {
+                updateTableData(mainController.returnScepticData(), mainController.returnScepticDataColumns());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         add = mainComponents.getAdd();
         add.addActionListener(e -> addBenPane());
 
@@ -94,55 +125,40 @@ public class MainView extends View {
             data = new ArrayList<>();
         }
 
-        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
-
+        String[] columnNames = mainController.returnAllColumns();
         model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
-
         table = new JTable(model);
+        table.setDefaultEditor(Object.class, null);
+        table.setRowHeight(30);
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
-        table.setDefaultEditor(Object.class, null);
-        table.setRowHeight(30);
+        configureTable(model, table, deleteIcon);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1500, 600));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        TableColumnModel tableColumnModel = table.getColumnModel();
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-            tableColumnModel.getColumn(i).setResizable(false);
-            sorter.setSortable(i, false);
-        }
-
-        sorter.setSortable(0, true);
-        tableColumnModel.getColumn(6).setPreferredWidth(200);
-
-        tableColumnModel.getColumn(10).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
-
-        table = mainController.tableMouseListener(table, model);
-
         JPanel bodyPanel = new JPanel();
         bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
         bodyPanel.add(scrollPane);
+
         return bodyPanel;
     }
 
-    // fix method
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
 
-        table.revalidate();
-        table.repaint();
+        configureTable(model, table, deleteIcon);
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
+
+        table.revalidate();
+        table.repaint();
     }
+
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;
@@ -163,4 +179,24 @@ public class MainView extends View {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
 
     }
+
+    private void configureTable(DefaultTableModel model, JTable table, ImageIcon deleteIcon) {
+        TableColumnModel tableColumnModel = table.getColumnModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        int deleteButtonColumnIndex = table.getColumnCount() - 1;
+
+        tableColumnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+        tableColumnModel.getColumn(6).setPreferredWidth(200);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            tableColumnModel.getColumn(i).setResizable(false);
+        }
+    }
+
+
 }

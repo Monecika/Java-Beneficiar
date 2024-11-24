@@ -12,6 +12,7 @@ public class MainComponents {
     private JMenu windowMenu;
     private JMenuItem search;
     private JMenu viewMenu;
+    private JMenuItem viewAll;
     private JMenuItem viewRural;
     private JMenuItem viewSceptic;
     private JMenuItem export;
@@ -42,6 +43,7 @@ public class MainComponents {
         filterName = menus.initMenuItem("Filter User");
         filterSurname = menus.initMenuItem("Filter Surname");
         filterRegion = menus.initMenuItem("Filter Region");
+        viewAll = menus.initMenuItem("View All");
         viewRural = menus.initMenuItem("View Rural");
         viewSceptic = menus.initMenuItem("View Sceptic");
         export = menus.initMenuItem("Export User");
@@ -82,6 +84,14 @@ public class MainComponents {
 
     public void setViewMenu(JMenu viewMenu) {
         this.viewMenu = viewMenu;
+    }
+
+    public JMenuItem getViewAll() {
+        return viewAll;
+    }
+
+    public void setViewAll(JMenuItem viewAll) {
+        this.viewAll = viewAll;
     }
 
     public JMenuItem getViewRural() {
