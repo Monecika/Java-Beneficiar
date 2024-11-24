@@ -1,17 +1,11 @@
 package org.project.DAO.entityDAO;
 
-import org.project.ConfigLoader;
 import org.project.DAO.CrudDAO;
-import org.project.Database;
 import org.project.entity.Beneficiaries;
 import org.project.entity.Cards;
 import org.project.entity.DisplayData;
 import org.project.entity.Localities;
 
-import javax.xml.crypto.Data;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

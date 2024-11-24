@@ -5,14 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-//    private static final String URL = ConfigLoader.getProperty("db.url");
-//    private static final String USERNAME = ConfigLoader.getProperty("db.user");
-//    private static final String PASSWORD = ConfigLoader.getProperty("db.password");
-
-    private static final String URL = "jdbc:postgresql://localhost:5432/Beneficiari";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "mona";
-
+    private static final String URL = ConfigLoader.getProperty("db.url");
+    private static final String USERNAME = ConfigLoader.getProperty("db.user");
+    private static final String PASSWORD = ConfigLoader.getProperty("db.password");
 
     public Database() {
     }

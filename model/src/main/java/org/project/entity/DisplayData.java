@@ -1,12 +1,10 @@
 package org.project.entity;
 
-import javax.smartcardio.Card;
-
 public class DisplayData extends Beneficiaries {
     private String localityName;
     private String cardNumber;
 
-    public DisplayData(int ID, String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID,String localityName, String environment, int cardID, String cardNumber) {
+    public DisplayData(int ID, String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, int localityID, String localityName, String environment, int cardID, String cardNumber) {
         super(ID, codeBen, nameBen, surnameBen, phoneBen, IDNP, addressBen, emailBen, localityID, environment, cardID);
         this.localityName = localityName;
         this.cardNumber = cardNumber;
@@ -30,9 +28,6 @@ public class DisplayData extends Beneficiaries {
 
     @Override
     public String toString() {
-        return "DisplayData{" +
-                "localityName='" + localityName + '\'' +
-                ", cardNumber='" + cardNumber + '\'' +
-                '}';
+        return "DisplayData{" + "localityName='" + localityName + '\'' + ", cardNumber='" + cardNumber + '\'' + '}';
     }
 }

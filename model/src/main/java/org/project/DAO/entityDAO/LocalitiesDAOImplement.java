@@ -5,7 +5,10 @@ import org.project.DAO.interfaces.LocalitiesDAO;
 import org.project.Database;
 import org.project.entity.Localities;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +22,7 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
     @Override
     public List<Localities> getAll() throws SQLException {
         List<Localities> localitiesList = new ArrayList<>();
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITIES);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITIES); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Localities localities = extractLocality(resultSet);
@@ -33,8 +34,7 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
 
     @Override
     public void add(Localities localities) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_INSERT_LOCALITY)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_LOCALITY)) {
 
             prepareStatement(statement, localities);
             statement.executeUpdate();
@@ -43,8 +43,7 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
 
     @Override
     public void update(Localities localities) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_LOCALITY)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_LOCALITY)) {
 
             prepareStatement(statement, localities);
             statement.setInt(6, localities.getID());
@@ -54,8 +53,7 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
 
     @Override
     public void delete(Localities localities) throws SQLException {
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE_LOCALITY)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE_LOCALITY)) {
 
             statement.setInt(1, localities.getID());
             statement.executeUpdate();
@@ -65,8 +63,7 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
     @Override
     public Localities getObject(int id) throws SQLException {
         Localities localities = null;
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITY)) {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITY)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -79,14 +76,7 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
     }
 
     private Localities extractLocality(ResultSet resultSet) throws SQLException {
-        return new Localities(
-                resultSet.getInt("id"),
-                resultSet.getString("localityName"),
-                resultSet.getString("localityType"),
-                resultSet.getInt("environmentID"),
-                resultSet.getInt("population"),
-                resultSet.getDouble("area")
-        );
+        return new Localities(resultSet.getInt("id"), resultSet.getString("localityName"), resultSet.getString("localityType"), resultSet.getInt("environmentID"), resultSet.getInt("population"), resultSet.getDouble("area"));
     }
 
     private void prepareStatement(PreparedStatement statement, Localities localities) throws SQLException {
