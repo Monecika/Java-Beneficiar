@@ -71,7 +71,7 @@ public class MainController extends Controller implements MouseListener {
     }
 
     public String[] returnAllColumns() {
-        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "LocalityID", "Environment", "CardNumber", "Operations"};
+        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "Locality", "Environment", "CardNumber", "Operations"};
 
         return columnNames;
     }

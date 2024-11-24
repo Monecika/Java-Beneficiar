@@ -187,15 +187,15 @@ public class MainView extends View {
 
         for (int i = 0; i < table.getColumnCount(); i++) {
             tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
+            tableColumnModel.getColumn(i).setResizable(false);
+            if(i!=0)
+                sorter.setSortable(i, false);
         }
 
         int deleteButtonColumnIndex = table.getColumnCount() - 1;
 
         tableColumnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
         tableColumnModel.getColumn(6).setPreferredWidth(200);
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setResizable(false);
-        }
     }
 
 
