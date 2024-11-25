@@ -8,6 +8,7 @@ import org.project.main.components.table.DeleteButtonRenderer;
 import org.project.mainController.MainController;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -127,9 +128,25 @@ public class MainView extends View {
 
         String[] columnNames = mainController.returnAllColumns();
         model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
-        table = new JTable(model);
-        table.setDefaultEditor(Object.class, null);
+        table = new JTable(model) {
+            private final List<Integer> editableColumns = List.of(-1);
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return editableColumns.contains(column);
+            }
+        };
+        table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
         table.setRowHeight(30);
+
+        model.addTableModelListener(e -> {
+            if (e.getType() == TableModelEvent.UPDATE) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                Object newValue = model.getValueAt(row, column);
+                System.out.println("Updated Cell: Row " + row + ", Column " + column + " -> New Value: " + newValue);
+            }
+        });
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
@@ -188,8 +205,7 @@ public class MainView extends View {
         for (int i = 0; i < table.getColumnCount(); i++) {
             tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
             tableColumnModel.getColumn(i).setResizable(false);
-            if(i!=0)
-                sorter.setSortable(i, false);
+            if (i != 0) sorter.setSortable(i, false);
         }
 
         int deleteButtonColumnIndex = table.getColumnCount() - 1;
