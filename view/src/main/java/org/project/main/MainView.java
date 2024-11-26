@@ -104,6 +104,8 @@ public class MainView extends View {
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
+        table = mainController.tableMouseListener(table, model);
+
         setupTableProperties();
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -185,11 +187,18 @@ public class MainView extends View {
 
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
+        model.addTableModelListener(e -> {
+            if (e.getType() == TableModelEvent.UPDATE) {
+                handleTableUpdate(e.getFirstRow(), e.getColumn());
+            }
+        });
 
         setupTableProperties();
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
+
+        table = mainController.tableMouseListener(table, model);
 
         table.revalidate();
         table.repaint();
