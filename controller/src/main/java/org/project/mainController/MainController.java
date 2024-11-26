@@ -27,6 +27,7 @@ public class MainController extends Controller {
     private boolean isNameSortable = false;
     private boolean isSurnameSortable = false;
     private boolean isLocalitySortable = false;
+    private boolean isEditable = false;
 
 
     public MainController(Model model, MainModel mainModel) {
@@ -148,5 +149,11 @@ public class MainController extends Controller {
         isLocalitySortable = !isLocalitySortable;
         filterLocality.setText(addOrRemoveTick(filterLocality.getText(), isLocalitySortable));
         sorter.setSortable(7, isLocalitySortable);
+    }
+
+    public void updateToggle(JMenuItem update) {
+        isEditable = !isEditable;
+        update.setText(addOrRemoveTick(update.getText(), isEditable));
+
     }
 }

@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainView extends View {
-    private final MainController mainController;
+    private static final int EDITABLE_START_COLUMN = 1;
+    private static final int EDITABLE_END_COLUMN = 6;
 
+    private final MainController mainController;
     private final Color grayColor = new Color(78, 78, 78);
     private final MainComponents mainComponents = new MainComponents();
     private final ImageIcon iconDark = controller.getDarkImageIcon();
@@ -31,20 +33,16 @@ public class MainView extends View {
     private JPanel bodyPanel;
     private JPanel header;
     private JButton logoButton;
-    private JButton deleteButton;
-
     private JMenuItem filterName;
     private JMenuItem filterSurname;
     private JMenuItem filterLocality;
-
     private JMenuItem viewAll;
     private JMenuItem viewRural;
     private JMenuItem viewSceptic;
-
     private JMenuItem update;
     private JMenuItem add;
 
-    private  boolean isEditable = false;
+    private boolean isEditable = false;
     private boolean isDarkTheme = false;
 
     private TableRowSorter<DefaultTableModel> sorter;
@@ -54,8 +52,7 @@ public class MainView extends View {
     public MainView(Controller controller, MainController mainController) {
         super(controller);
         this.mainController = mainController;
-
-        deleteIcon = mainController.getDeleteImageIcon();
+        this.deleteIcon = mainController.getDeleteImageIcon();
     }
 
     public void init() throws SQLException {
@@ -78,6 +75,7 @@ public class MainView extends View {
         frame.add(bodyPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
+
     private JPanel initBody() throws SQLException {
         List<String[]> data = mainController.returnData();
 
@@ -90,8 +88,7 @@ public class MainView extends View {
         table = new JTable(model) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Make cells editable only when isEditable is true and column is within editable range
-                return isEditable && column >= 1 && column <= 6;
+                return isEditable && column >= EDITABLE_START_COLUMN && column <= EDITABLE_END_COLUMN;
             }
         };
 
@@ -100,31 +97,14 @@ public class MainView extends View {
 
         model.addTableModelListener(e -> {
             if (e.getType() == TableModelEvent.UPDATE) {
-                int row = e.getFirstRow();
-                int column = e.getColumn();
-
-                if (row == -1 || column == -1) {
-                    return;
-                }
-
-                String[] updateData = new String[model.getColumnCount()];
-                for (int col = 0; col < model.getColumnCount(); col++) {
-                    String value = (String) model.getValueAt(row, col);
-                    updateData[col] = value;
-                }
-
-                try {
-                    mainController.updateDisplayData(updateData);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                handleTableUpdate(e.getFirstRow(), e.getColumn());
             }
         });
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
-        configureTable(model, table, deleteIcon);
+        setupTableProperties(table, deleteIcon);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1500, 600));
@@ -182,33 +162,28 @@ public class MainView extends View {
         add.addActionListener(e -> addBenPane());
 
         update = mainComponents.getUpdate();
-        update.addActionListener(e -> revalidateBody());
-
+        update.addActionListener(e -> {
+            mainController.updateToggle(update);
+            revalidateBody();
+        });
     }
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;
 
         logoButton.setIcon(isDarkTheme ? iconLight : iconDark);
-        if (isDarkTheme) {
-            initDark();
-            header.setBackground(grayColor);
-        } else {
-            initLight();
-            header.setBackground(Color.WHITE);
-        }
+        header.setBackground(isDarkTheme ? grayColor : Color.WHITE);
+        frame.getContentPane().setBackground(isDarkTheme ? grayColor.darker() : Color.WHITE);
+        bodyPanel.setBackground(isDarkTheme ? grayColor.darker() : Color.WHITE);
+        table.setBackground(isDarkTheme ? grayColor.brighter() : Color.WHITE);
+        table.setForeground(isDarkTheme ? Color.WHITE : Color.BLACK);
 
-        SwingUtilities.updateComponentTreeUI(frame);
+        frame.repaint();
     }
 
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
-
-        configureTable(model, table, deleteIcon);
-
-        sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
-
+        sorter.setModel(model);
         table.revalidate();
         table.repaint();
     }
@@ -217,35 +192,42 @@ public class MainView extends View {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
     }
 
-    private void configureTable(DefaultTableModel model, JTable table, ImageIcon deleteIcon) {
-        TableColumnModel tableColumnModel = table.getColumnModel();
+    private void setupTableProperties(JTable table, ImageIcon deleteIcon) {
+        TableColumnModel columnModel = table.getColumnModel();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         for (int i = 0; i < table.getColumnCount(); i++) {
-            tableColumnModel.getColumn(i).setCellRenderer(centerRenderer);
-            tableColumnModel.getColumn(i).setResizable(false);
+            columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            columnModel.getColumn(i).setResizable(false);
             if (i != 0) sorter.setSortable(i, false);
         }
 
         int deleteButtonColumnIndex = table.getColumnCount() - 1;
-
-        tableColumnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
-        tableColumnModel.getColumn(6).setPreferredWidth(200);
+        columnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+        columnModel.getColumn(6).setPreferredWidth(200);
     }
 
     private void revalidateBody() {
         isEditable = !isEditable;
-
-        frame.remove(bodyPanel); // Remove the old body panel
-        try {
-            bodyPanel = initBody(); // Reinitialize the body
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        frame.add(bodyPanel, BorderLayout.CENTER); // Add the new body panel
-        frame.revalidate(); // Refresh the frame
-        frame.repaint();
+        table.revalidate();
+        table.repaint();
     }
 
+    private void handleTableUpdate(int row, int column) {
+        if (row == -1 || column == -1) {
+            return;
+        }
+
+        String[] updateData = new String[model.getColumnCount()];
+        for (int col = 0; col < model.getColumnCount(); col++) {
+            updateData[col] = (String) model.getValueAt(row, col);
+        }
+
+        try {
+            mainController.updateDisplayData(updateData);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }
