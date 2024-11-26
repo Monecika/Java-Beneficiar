@@ -80,7 +80,6 @@ public class MainView extends View {
         frame.add(bodyPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
-
     private JPanel initBody() throws SQLException {
         List<String[]> data = mainController.returnData();
 
@@ -91,19 +90,10 @@ public class MainView extends View {
         String[] columnNames = mainController.returnAllColumns();
         model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
         table = new JTable(model) {
-            private final List<Integer> editableColumns;
-
-            {
-                if (isEditable) {
-                    editableColumns = IntStream.range(1, 7).boxed().collect(Collectors.toList());
-                } else {
-                    editableColumns = List.of(-1);
-                }
-            }
-
             @Override
             public boolean isCellEditable(int row, int column) {
-                return editableColumns.contains(column);
+                // Make cells editable only when isEditable is true and column is within editable range
+                return isEditable && column >= 1 && column <= 6;
             }
         };
 
@@ -249,10 +239,15 @@ public class MainView extends View {
     private void revalidateBody() {
         isEditable = !isEditable;
 
+        frame.remove(bodyPanel); // Remove the old body panel
         try {
-            bodyPanel = initBody();
+            bodyPanel = initBody(); // Reinitialize the body
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        frame.add(bodyPanel, BorderLayout.CENTER); // Add the new body panel
+        frame.revalidate(); // Refresh the frame
+        frame.repaint();
     }
+
 }
