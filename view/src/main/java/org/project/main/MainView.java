@@ -104,7 +104,7 @@ public class MainView extends View {
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
-        setupTableProperties(table, deleteIcon);
+        setupTableProperties();
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1500, 600));
@@ -172,18 +172,25 @@ public class MainView extends View {
         isDarkTheme = !isDarkTheme;
 
         logoButton.setIcon(isDarkTheme ? iconLight : iconDark);
-        header.setBackground(isDarkTheme ? grayColor : Color.WHITE);
-        frame.getContentPane().setBackground(isDarkTheme ? grayColor.darker() : Color.WHITE);
-        bodyPanel.setBackground(isDarkTheme ? grayColor.darker() : Color.WHITE);
-        table.setBackground(isDarkTheme ? grayColor.brighter() : Color.WHITE);
-        table.setForeground(isDarkTheme ? Color.WHITE : Color.BLACK);
+        if (isDarkTheme) {
+            initDark();
+            header.setBackground(grayColor);
+        } else {
+            initLight();
+            header.setBackground(Color.WHITE);
+        }
 
-        frame.repaint();
+        SwingUtilities.updateComponentTreeUI(frame);
     }
 
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
-        sorter.setModel(model);
+
+        setupTableProperties();
+
+        sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
         table.revalidate();
         table.repaint();
     }
@@ -192,7 +199,7 @@ public class MainView extends View {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
     }
 
-    private void setupTableProperties(JTable table, ImageIcon deleteIcon) {
+    private void setupTableProperties() {
         TableColumnModel columnModel = table.getColumnModel();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
