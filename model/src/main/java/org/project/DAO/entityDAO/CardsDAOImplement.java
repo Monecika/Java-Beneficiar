@@ -15,6 +15,7 @@ import java.util.List;
 public class CardsDAOImplement implements CardsDAO {
     private final static String SQL_SELECT_CARDS = ConfigLoader.getProperty("sql.SQL_SELECT_CARDS");
     private final static String SQL_SELECT_CARD = ConfigLoader.getProperty("sql.SQL_SELECT_CARD");
+    private final static String SQL_SELECT_CARD_NUM = ConfigLoader.getProperty("sql.SQL_SELECT_CARD_NUM");
     private final static String SQL_INSERT_CARD = ConfigLoader.getProperty("sql.SQL_INSERT_CARD");
     private final static String SQL_UPDATE_CARD = ConfigLoader.getProperty("sql.SQL_UPDATE_CARD");
     private final static String SQL_DELETE_CARD = ConfigLoader.getProperty("sql.SQL_DELETE_CARD");
@@ -68,6 +69,22 @@ public class CardsDAOImplement implements CardsDAO {
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CARD)) {
 
             statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    card = extractCard(resultSet);
+                }
+            }
+        }
+        return card;
+    }
+
+    @Override
+    public Cards getCard(String number) throws SQLException {
+        Cards card = null;
+
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CARD_NUM)) {
+
+            statement.setString(1, number);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     card = extractCard(resultSet);

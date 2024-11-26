@@ -15,6 +15,7 @@ import java.util.List;
 public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     private final static String SQL_SELECT = ConfigLoader.getProperty("sql.SQL_SELECT_BENEFICIARIES");
     private final static String SQL_SELECT_BEN = ConfigLoader.getProperty("sql.SQL_SELECT_BENEFICIARY");
+    private final static String SQL_SELECT_BEN_NUM = ConfigLoader.getProperty("sql.SQL_SELECT_BENEFICIARY_NUM");
     private final static String SQL_INSERT = ConfigLoader.getProperty("sql.SQL_INSERT_BENEFICIARIES");
     private final static String SQL_UPDATE = ConfigLoader.getProperty("sql.SQL_UPDATE_BENEFICIARIES");
     private final static String SQL_DELETE = ConfigLoader.getProperty("sql.SQL_DELETE_BENEFICIARIES");
@@ -76,6 +77,21 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
         }
         return beneficiary;
     }
+
+    @Override
+    public Beneficiaries getBeneficiary(String number) throws SQLException {
+        Beneficiaries beneficiary = null;
+
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN_NUM)) {
+
+            statement.setString(1, number);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    beneficiary = extractBeneficiary(resultSet);
+                }
+            }
+        return beneficiary;
+    }}
 
     private Beneficiaries extractBeneficiary(ResultSet resultSet) throws SQLException {
         return new Beneficiaries(resultSet.getInt("id"), resultSet.getString("nrben"), resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("phone"), resultSet.getString("idnp"), resultSet.getString("address"), resultSet.getString("email"), resultSet.getInt("localityid"), resultSet.getString("environment"), resultSet.getInt("cardid"));

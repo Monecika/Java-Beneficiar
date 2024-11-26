@@ -41,6 +41,8 @@ public class MainView extends View {
     private JMenuItem viewRural;
     private JMenuItem viewSceptic;
 
+    private JMenuItem delete;
+    private JMenuItem update;
     private JMenuItem add;
 
     private boolean isDarkTheme = false;
@@ -62,6 +64,77 @@ public class MainView extends View {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        initMenuItems();
+
+        header = mainComponents.getHeader();
+        header.add(mainComponents.getLogo());
+        header.add(Box.createHorizontalGlue());
+        header.add(mainComponents.getMenuBar());
+        header.add(Box.createHorizontalGlue());
+        header.add(logoButton);
+
+        bodyPanel = initBody();
+
+        frame.add(header, BorderLayout.NORTH);
+        frame.add(bodyPanel, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+
+    private JPanel initBody() throws SQLException {
+        List<String[]> data = mainController.returnData();
+
+        if (data == null || data.isEmpty()) {
+            data = new ArrayList<>();
+        }
+
+        String[] columnNames = mainController.returnAllColumns();
+        model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
+        table = mainController.setTableEditable(table, model);
+
+        table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
+        table.setRowHeight(30);
+
+        model.addTableModelListener(e -> {
+            if (e.getType() == TableModelEvent.UPDATE) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+
+                if (row == -1 || column == -1) {
+                    return;
+                }
+
+                String[] updateData = new String[model.getColumnCount()];
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    String value = (String) model.getValueAt(row, col);
+                    updateData[col] = value;
+                }
+
+                try {
+                    mainController.updateDisplayData(updateData);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+
+        sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
+        configureTable(model, table, deleteIcon);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1500, 600));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        JPanel bodyPanel = new JPanel();
+        bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+        bodyPanel.add(scrollPane);
+
+        return bodyPanel;
+    }
+
+    private void initMenuItems() {
         logoButton = mainComponents.getLogoButton();
         logoButton.setIcon(iconDark);
         logoButton.addActionListener(e -> changeTheme());
@@ -105,77 +178,16 @@ public class MainView extends View {
         add = mainComponents.getAdd();
         add.addActionListener(e -> addBenPane());
 
-        header = mainComponents.getHeader();
-        header.add(mainComponents.getLogo());
-        header.add(Box.createHorizontalGlue());
-        header.add(mainComponents.getMenuBar());
-        header.add(Box.createHorizontalGlue());
-        header.add(logoButton);
-
-        bodyPanel = initBody();
-
-        frame.add(header, BorderLayout.NORTH);
-        frame.add(bodyPanel, BorderLayout.CENTER);
-        frame.setVisible(true);
-    }
-
-    private JPanel initBody() throws SQLException {
-        List<String[]> data = mainController.returnData();
-
-        if (data == null || data.isEmpty()) {
-            data = new ArrayList<>();
-        }
-
-        String[] columnNames = mainController.returnAllColumns();
-        model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
-        table = new JTable(model) {
-            private final List<Integer> editableColumns = List.of(-1);
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return editableColumns.contains(column);
-            }
-        };
-        table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
-        table.setRowHeight(30);
-
-        model.addTableModelListener(e -> {
-            if (e.getType() == TableModelEvent.UPDATE) {
-                int row = e.getFirstRow();
-                int column = e.getColumn();
-                Object newValue = model.getValueAt(row, column);
-                System.out.println("Updated Cell: Row " + row + ", Column " + column + " -> New Value: " + newValue);
-            }
+        update = mainComponents.getUpdate();
+        update.addActionListener(e -> {
+            table = mainController.setTableEditable(table, model);
         });
 
-        sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
+        delete = mainComponents.getDelete();
+        delete.addActionListener(e -> {
+        });
 
-        configureTable(model, table, deleteIcon);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1500, 600));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-        JPanel bodyPanel = new JPanel();
-        bodyPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
-        bodyPanel.add(scrollPane);
-
-        return bodyPanel;
     }
-
-    public void updateTableData(List<String[]> newData, String[] newColumnNames) {
-        model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
-
-        configureTable(model, table, deleteIcon);
-
-        sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
-
-        table.revalidate();
-        table.repaint();
-    }
-
 
     private void changeTheme() {
         isDarkTheme = !isDarkTheme;
@@ -192,10 +204,23 @@ public class MainView extends View {
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
+    public void updateTableData(List<String[]> newData, String[] newColumnNames) {
+        model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
+
+        configureTable(model, table, deleteIcon);
+
+        sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
+        table.revalidate();
+        table.repaint();
+    }
+
+
     private void addBenPane() {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
-
     }
+
 
     private void configureTable(DefaultTableModel model, JTable table, ImageIcon deleteIcon) {
         TableColumnModel tableColumnModel = table.getColumnModel();

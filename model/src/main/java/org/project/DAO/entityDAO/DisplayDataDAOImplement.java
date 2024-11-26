@@ -67,7 +67,20 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
 
     @Override
     public void update(DisplayData displayData) throws SQLException {
+        Beneficiaries beneficiary = beneficiariesDAO.getBeneficiary(displayData.getCodeBen());
+        Localities locality = localitiesDAO.getLocality(displayData.getLocalityName());
+        Cards card = cardsDAO.getCard(displayData.getCardNumber());
 
+        beneficiary.setNameBen(displayData.getNameBen());
+        beneficiary.setSurnameBen(displayData.getSurnameBen());
+        beneficiary.setPhoneBen(displayData.getPhoneBen());
+        beneficiary.setIDNP(displayData.getIDNP());
+        beneficiary.setAddressBen(displayData.getAddressBen());
+        beneficiary.setEmailBen(displayData.getEmailBen());
+
+        beneficiariesDAO.update(beneficiary);
+        localitiesDAO.update(locality);
+        cardsDAO.update(card);
     }
 
     @Override
