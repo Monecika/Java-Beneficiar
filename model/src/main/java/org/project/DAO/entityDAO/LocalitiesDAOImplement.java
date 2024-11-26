@@ -15,6 +15,7 @@ import java.util.List;
 public class LocalitiesDAOImplement implements LocalitiesDAO {
     private final static String SQL_SELECT_LOCALITIES = ConfigLoader.getProperty("sql.SQL_SELECT_LOCALITIES");
     private final static String SQL_SELECT_LOCALITY = ConfigLoader.getProperty("sql.SQL_SELECT_LOCALITY");
+    private final static String SQL_SELECT_LOCALITY_NAME = ConfigLoader.getProperty("sql.SQL_SELECT_LOCALITY_NAME");
     private final static String SQL_INSERT_LOCALITY = ConfigLoader.getProperty("sql.SQL_INSERT_LOCALITY");
     private final static String SQL_UPDATE_LOCALITY = ConfigLoader.getProperty("sql.SQL_UPDATE_LOCALITY");
     private final static String SQL_DELETE_LOCALITY = ConfigLoader.getProperty("sql.SQL_DELETE_LOCALITY");
@@ -66,6 +67,21 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITY)) {
 
             statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    localities = extractLocality(resultSet);
+                }
+            }
+        }
+        return localities;
+    }
+
+    @Override
+    public Localities getLocality(String name) throws SQLException {
+        Localities localities = null;
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITY_NAME)) {
+
+            statement.setString(1, name);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     localities = extractLocality(resultSet);
