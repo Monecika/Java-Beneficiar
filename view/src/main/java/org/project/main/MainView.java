@@ -17,6 +17,8 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MainView extends View {
     private final MainController mainController;
@@ -41,10 +43,10 @@ public class MainView extends View {
     private JMenuItem viewRural;
     private JMenuItem viewSceptic;
 
-//    private JMenuItem delete;
     private JMenuItem update;
     private JMenuItem add;
 
+    private  boolean isEditable = true;
     private boolean isDarkTheme = false;
 
     private TableRowSorter<DefaultTableModel> sorter;
@@ -56,7 +58,6 @@ public class MainView extends View {
         this.mainController = mainController;
 
         deleteIcon = mainController.getDeleteImageIcon();
-
     }
 
     public void init() throws SQLException {
@@ -89,7 +90,22 @@ public class MainView extends View {
 
         String[] columnNames = mainController.returnAllColumns();
         model = new DefaultTableModel(data.toArray(new String[0][0]), columnNames);
-        table = mainController.setTableEditable(table, model);
+        table = new JTable(model) {
+            private final List<Integer> editableColumns;
+
+            {
+                if (isEditable) {
+                    editableColumns = IntStream.range(1, 7).boxed().collect(Collectors.toList());
+                } else {
+                    editableColumns = List.of(-1);
+                }
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return editableColumns.contains(column);
+            }
+        };
 
         table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
         table.setRowHeight(30);
@@ -116,7 +132,6 @@ public class MainView extends View {
                 }
             }
         });
-
 
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
@@ -179,13 +194,7 @@ public class MainView extends View {
         add.addActionListener(e -> addBenPane());
 
         update = mainComponents.getUpdate();
-        update.addActionListener(e -> {
-            table = mainController.setTableEditable(table, model);
-        });
-
-//        delete = mainComponents.getDelete();
-//        delete.addActionListener(e -> {
-//        });
+        update.addActionListener(e -> revalidateBody());
 
     }
 
@@ -216,11 +225,9 @@ public class MainView extends View {
         table.repaint();
     }
 
-
     private void addBenPane() {
         AddBenOptionPane benOptionPane = new AddBenOptionPane();
     }
-
 
     private void configureTable(DefaultTableModel model, JTable table, ImageIcon deleteIcon) {
         TableColumnModel tableColumnModel = table.getColumnModel();
@@ -239,5 +246,13 @@ public class MainView extends View {
         tableColumnModel.getColumn(6).setPreferredWidth(200);
     }
 
+    private void revalidateBody() {
+        isEditable = !isEditable;
 
+        try {
+            bodyPanel = initBody();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
