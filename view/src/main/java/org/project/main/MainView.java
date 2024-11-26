@@ -17,8 +17,6 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class MainView extends View {
     private final MainController mainController;
@@ -46,7 +44,7 @@ public class MainView extends View {
     private JMenuItem update;
     private JMenuItem add;
 
-    private  boolean isEditable = true;
+    private  boolean isEditable = false;
     private boolean isDarkTheme = false;
 
     private TableRowSorter<DefaultTableModel> sorter;
