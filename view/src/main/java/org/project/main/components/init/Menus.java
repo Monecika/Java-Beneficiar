@@ -26,7 +26,7 @@ public class Menus {
     public JMenu initEditMenu() {
         JMenu editMenu = new JMenu("Edit");
         editMenu.add(mainComponents.getUpdate());
-        editMenu.add(mainComponents.getDelete());
+//        editMenu.add(mainComponents.getDelete());
         editMenu.add(mainComponents.getAdd());
         editMenu.setBorder(BorderFactory.createEmptyBorder(15, 30, 0, 30));
         editMenu.setFont(new Font("Ink Free", Font.PLAIN, 20));

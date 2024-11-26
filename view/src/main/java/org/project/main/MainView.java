@@ -41,7 +41,7 @@ public class MainView extends View {
     private JMenuItem viewRural;
     private JMenuItem viewSceptic;
 
-    private JMenuItem delete;
+//    private JMenuItem delete;
     private JMenuItem update;
     private JMenuItem add;
 
@@ -183,9 +183,9 @@ public class MainView extends View {
             table = mainController.setTableEditable(table, model);
         });
 
-        delete = mainComponents.getDelete();
-        delete.addActionListener(e -> {
-        });
+//        delete = mainComponents.getDelete();
+//        delete.addActionListener(e -> {
+//        });
 
     }
 
