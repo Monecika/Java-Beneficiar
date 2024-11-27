@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +33,11 @@ public class MainController extends Controller {
         this.createImage = new CreateImage();
     }
 
-    public void updateDisplayData(String[] data) throws SQLException {
+    public void updateDisplayData(String[] data) {
         mainModel.updateDisplayData(data);
     }
 
-    public List<String[]> returnData() throws SQLException {
+    public List<String[]> returnData() {
 
         List<String[]> data = new ArrayList<>();
 
@@ -51,7 +50,7 @@ public class MainController extends Controller {
         return data;
     }
 
-    public List<String[]> returnFilteredData() throws SQLException {
+    public List<String[]> returnFilteredData() {
         List<String[]> data = returnData();
         List<String[]> filteredData = new ArrayList<>();
 
@@ -61,9 +60,10 @@ public class MainController extends Controller {
         return filteredData;
     }
 
-    public List<String[]> returnScepticData() throws SQLException {
+    public List<String[]> returnScepticData() {
         List<String[]> data = new ArrayList<>();
-        List<ScepticData> displayData = mainModel.getScepticData();
+        List<ScepticData> displayData;
+        displayData = mainModel.getScepticData();
         for (ScepticData sceptic : displayData) {
             String[] display = {sceptic.getCodeBen(), sceptic.getNameBen(), sceptic.getSurnameBen(), sceptic.getPhoneBen(), sceptic.getAddressBen(), sceptic.getEmailBen()};
             data.add(display);
@@ -80,7 +80,7 @@ public class MainController extends Controller {
         return new String[]{"BeneficiaryId", "Name", "Surname", "Phone Number", "Address", "Email", "Operations"};
     }
 
-    public String[] getEnvironments() throws SQLException {
+    public String[] getEnvironments() {
         List<Environments> data = mainModel.getEnvironment();
         String[] environments = new String[data.size()];
 
@@ -90,7 +90,7 @@ public class MainController extends Controller {
         return environments;
     }
 
-    public String[] getLocalities() throws SQLException {
+    public String[] getLocalities() {
         List<Localities> data = mainModel.getLocality();
         String[] localities = new String[data.size()];
 
@@ -101,7 +101,7 @@ public class MainController extends Controller {
         return localities;
     }
 
-    public String[] getCardNumbers() throws SQLException {
+    public String[] getCardNumbers() {
         List<Cards> data = mainModel.getCard();
         String[] cardNumbers = new String[data.size()];
 
@@ -127,11 +127,7 @@ public class MainController extends Controller {
                     int modelRow = table.convertRowIndexToModel(row);
                     String firstColumnData = (String) table.getValueAt(row, 0);
                     model.removeRow(modelRow);
-                    try {
-                        mainModel.deleteBen(firstColumnData);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    mainModel.deleteBen(firstColumnData);
                 }
             }
 
@@ -178,7 +174,7 @@ public class MainController extends Controller {
         update.setText(addOrRemoveTick(update.getText(), isEditable));
     }
 
-    public void addData(DisplayData displayData) throws SQLException {
+    public void addData(DisplayData displayData) {
         mainModel.addData(displayData);
     }
 

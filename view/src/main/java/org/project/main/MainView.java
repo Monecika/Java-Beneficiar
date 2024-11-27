@@ -77,7 +77,7 @@ public class MainView extends View {
         frame.setVisible(true);
     }
 
-    private JPanel initBody() throws SQLException {
+    private JPanel initBody() {
         List<String[]> data = mainController.returnData();
 
         if (data == null || data.isEmpty()) {
@@ -135,40 +135,16 @@ public class MainView extends View {
         filterLocality.addActionListener(_ -> mainController.setLocalitySortable(filterLocality, sorter));
 
         JMenuItem viewAll = mainComponents.getViewAll();
-        viewAll.addActionListener(_ -> {
-            try {
-                updateTableData(mainController.returnData(), mainController.returnAllColumns());
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        viewAll.addActionListener(_ -> updateTableData(mainController.returnData(), mainController.returnAllColumns()));
 
         JMenuItem viewRural = mainComponents.getViewRural();
-        viewRural.addActionListener(_ -> {
-            try {
-                updateTableData(mainController.returnFilteredData(), mainController.returnAllColumns());
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        viewRural.addActionListener(_ -> updateTableData(mainController.returnFilteredData(), mainController.returnAllColumns()));
 
         JMenuItem viewSceptic = mainComponents.getViewSceptic();
-        viewSceptic.addActionListener(_ -> {
-            try {
-                updateTableData(mainController.returnScepticData(), mainController.returnScepticDataColumns());
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        viewSceptic.addActionListener(_ -> updateTableData(mainController.returnScepticData(), mainController.returnScepticDataColumns()));
 
         JMenuItem add = mainComponents.getAdd();
-        add.addActionListener(_ -> {
-            try {
-                addBenPane();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        add.addActionListener(_ -> addBenPane());
 
         update = mainComponents.getUpdate();
         update.addActionListener(_ -> {
@@ -251,11 +227,7 @@ public class MainView extends View {
             updateData[col] = (String) model.getValueAt(row, col);
         }
 
-        try {
-            mainController.updateDisplayData(updateData);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
+        mainController.updateDisplayData(updateData);
     }
 
     private void revalidateBody() {
@@ -264,7 +236,7 @@ public class MainView extends View {
         table.repaint();
     }
 
-    private void addBenPane() throws SQLException {
+    private void addBenPane() {
         JComboBox environment = new JComboBox(mainController.getEnvironments());
         JComboBox locality = new JComboBox(mainController.getLocalities());
         JComboBox card = new JComboBox(mainController.getCardNumbers());
