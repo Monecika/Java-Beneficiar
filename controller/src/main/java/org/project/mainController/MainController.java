@@ -10,7 +10,6 @@ import org.project.entity.ScepticData;
 import org.project.mainModel.MainModel;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseEvent;
@@ -18,8 +17,6 @@ import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 public class MainController extends Controller {
@@ -109,9 +106,15 @@ public class MainController extends Controller {
             public void mouseClicked(MouseEvent e) {
                 int column = table.getSelectedColumn();
                 int row = table.getSelectedRow();
-                if (column == 10 && row != -1) {
+                if (column == table.getColumnCount()-1 && row != -1) {
                     int modelRow = table.convertRowIndexToModel(row);
+                    String firstColumnData = (String) table.getValueAt(row, 0);
                     model.removeRow(modelRow);
+                    try {
+                        mainModel.deleteBen(firstColumnData);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
 
@@ -154,26 +157,9 @@ public class MainController extends Controller {
         sorter.setSortable(7, isLocalitySortable);
     }
 
-    public JTable setTableEditable(JTable table, DefaultTableModel model) {
+    public void updateToggle(JMenuItem update) {
         isEditable = !isEditable;
-        List<Integer> editable;
+        update.setText(addOrRemoveTick(update.getText(), isEditable));
 
-        if (isEditable) {
-            editable = IntStream.range(1, 7).boxed().collect(Collectors.toList());
-        } else {
-            editable = List.of(-1);
-        }
-
-        table = new JTable(model) {
-            private final List<Integer> editableColumns = editable;
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return editableColumns.contains(column);
-            }
-        };
-
-
-        return table;
     }
 }

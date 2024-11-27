@@ -5,7 +5,7 @@ public class DisplayData extends Beneficiaries {
     private String cardNumber;
 
     public DisplayData(String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, String localityName, String environment, String cardNumber) {
-        super(codeBen, nameBen, surnameBen, phoneBen, IDNP, addressBen, emailBen, environment);
+        super(codeBen, nameBen, surnameBen, phoneBen, IDNP, addressBen, emailBen);
         this.localityName = localityName;
         this.cardNumber = cardNumber;
     }

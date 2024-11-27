@@ -7,4 +7,5 @@ import java.sql.SQLException;
 
 public interface BeneficiariesDAO extends CrudDAO<Beneficiaries> {
     Beneficiaries getBeneficiary(String number) throws SQLException;
+    void deleteBeneficiary(String number) throws SQLException;
 }

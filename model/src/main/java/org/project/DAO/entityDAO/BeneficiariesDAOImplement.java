@@ -79,6 +79,11 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     }
 
     @Override
+    public void deleteBeneficiary(String number) throws SQLException {
+
+    }
+
+    @Override
     public Beneficiaries getBeneficiary(String number) throws SQLException {
         Beneficiaries beneficiary = null;
 
@@ -90,8 +95,9 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
                     beneficiary = extractBeneficiary(resultSet);
                 }
             }
-        return beneficiary;
-    }}
+            return beneficiary;
+        }
+    }
 
     private Beneficiaries extractBeneficiary(ResultSet resultSet) throws SQLException {
         return new Beneficiaries(resultSet.getInt("id"), resultSet.getString("nrben"), resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("phone"), resultSet.getString("idnp"), resultSet.getString("address"), resultSet.getString("email"), resultSet.getInt("localityid"), resultSet.getString("environment"), resultSet.getInt("cardid"));
