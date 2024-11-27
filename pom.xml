@@ -15,6 +15,7 @@
         <module>database</module>
         <module>main_app</module>
         <module>common</module>
+        <module>untitled</module>
     </modules>
 
     <properties>
