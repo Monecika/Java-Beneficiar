@@ -41,9 +41,13 @@ public class MainView extends View {
     private JMenuItem viewSceptic;
     private JMenuItem update;
     private JMenuItem add;
+    private JMenuItem toggleSearch;
+
+    private JTextField searchField;
 
     private boolean isEditable = false;
     private boolean isDarkTheme = false;
+    private boolean isVisible = false;
 
     private TableRowSorter<DefaultTableModel> sorter;
     private JTable table;
@@ -66,6 +70,9 @@ public class MainView extends View {
         header.add(mainComponents.getLogo());
         header.add(Box.createHorizontalGlue());
         header.add(mainComponents.getMenuBar());
+        header.add(Box.createHorizontalGlue());
+        header.add(mainComponents.getSearchPanel());
+//        header.remove(2);
         header.add(Box.createHorizontalGlue());
         header.add(logoButton);
 
@@ -168,6 +175,35 @@ public class MainView extends View {
             mainController.updateToggle(update);
             revalidateBody();
         });
+
+        toggleSearch = mainComponents.getSearch();
+        toggleSearch.addActionListener(e -> {
+            isVisible = !isVisible;
+            searchField.setVisible(isVisible);
+            toggleSearch.setText(mainController.addOrRemoveTick(toggleSearch.getText(), isVisible));
+
+            header.repaint();
+            header.revalidate();
+        });
+
+        searchField = mainComponents.getSearchField();
+        searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                searchTable();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                searchTable();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                searchTable();
+            }
+        });
+        searchField.setVisible(false);
     }
 
     private void changeTheme() {
@@ -246,4 +282,14 @@ public class MainView extends View {
             throw new RuntimeException(ex);
         }
     }
+
+    private void searchTable() {
+        String query = searchField.getText().trim();
+        if (query.isEmpty()) {
+            sorter.setRowFilter(null);
+        } else {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));
+        }
+    }
+
 }

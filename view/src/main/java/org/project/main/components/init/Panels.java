@@ -17,4 +17,11 @@ public class Panels {
         header.setBackground(Color.WHITE);
         return header;
     }
+
+    public JPanel searchPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setMaximumSize(new Dimension(200, 20));
+
+        return panel;
+    }
 }
