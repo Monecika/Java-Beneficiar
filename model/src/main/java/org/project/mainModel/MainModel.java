@@ -1,26 +1,30 @@
 package org.project.mainModel;
 
-import org.project.DAO.entityDAO.BeneficiariesDAOImplement;
-import org.project.DAO.entityDAO.DisplayDataDAOImplement;
-import org.project.DAO.entityDAO.ScepticDataDAOImplementation;
+import org.project.DAO.entityDAO.*;
 import org.project.Model;
-import org.project.entity.Beneficiaries;
-import org.project.entity.DisplayData;
-import org.project.entity.ScepticData;
+import org.project.entity.*;
 
+import javax.smartcardio.Card;
 import java.sql.SQLException;
 import java.util.List;
 
 public class MainModel extends Model {
     private final DisplayDataDAOImplement displayDataDAOImplement;
     private final ScepticDataDAOImplementation scepticDataDAOImplementation;
-    private final BeneficiariesDAOImplement beneficiariesDAOImplement;
 
+    private final BeneficiariesDAOImplement beneficiariesDAOImplement;
+    private final EnvironmentsDAOImplement environmentsDAOImplement;
+    private final LocalitiesDAOImplement localitiesDAOImplement;
+    private final CardsDAOImplement cardsDAOImplement;
 
     public MainModel() {
         displayDataDAOImplement = new DisplayDataDAOImplement();
         scepticDataDAOImplementation = new ScepticDataDAOImplementation();
+
         beneficiariesDAOImplement = new BeneficiariesDAOImplement();
+        environmentsDAOImplement = new EnvironmentsDAOImplement();
+        localitiesDAOImplement = new LocalitiesDAOImplement();
+        cardsDAOImplement = new CardsDAOImplement();
     }
 
     public List<DisplayData> getDisplayData() throws SQLException {
@@ -39,6 +43,22 @@ public class MainModel extends Model {
     public void deleteBen(String number) throws SQLException {
         Beneficiaries beneficiaries = beneficiariesDAOImplement.getBeneficiary(number);
         beneficiariesDAOImplement.delete(beneficiaries);
+    }
+
+    public List<Environments> getEnvironment() throws SQLException {
+        return environmentsDAOImplement.getAll();
+    }
+
+    public List<Localities> getLocality() throws SQLException {
+        return localitiesDAOImplement.getAll();
+    }
+
+    public List<Cards> getCard() throws SQLException {
+        return cardsDAOImplement.getAll();
+    }
+
+    public void addData(DisplayData displayData) throws SQLException {
+        displayDataDAOImplement.add(displayData);
     }
 
 

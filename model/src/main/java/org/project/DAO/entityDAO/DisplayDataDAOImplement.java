@@ -1,13 +1,11 @@
 package org.project.DAO.entityDAO;
 
 import org.project.DAO.CrudDAO;
-import org.project.Database;
 import org.project.entity.Beneficiaries;
 import org.project.entity.Cards;
 import org.project.entity.DisplayData;
 import org.project.entity.Localities;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +62,15 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
 
     @Override
     public void add(DisplayData displayData) throws SQLException {
+        Localities locality = localitiesDAO.getLocality(displayData.getLocalityName());
+        Cards card = cardsDAO.getCard(displayData.getCardNumber());
 
+        int number = beneficiariesDAO.getAll().size() +1 ;
+        String code = "BEN" + number;
+        displayData.setCodeBen(code);
+        Beneficiaries beneficiary = new Beneficiaries(0, displayData.getCodeBen(), displayData.getNameBen(), displayData.getSurnameBen(), displayData.getPhoneBen(), displayData.getIDNP(), displayData.getAddressBen(), displayData.getEmailBen(), locality.getID(), displayData.getEnvironment(), card.getID());
+
+        beneficiariesDAO.add(beneficiary);
     }
 
     @Override

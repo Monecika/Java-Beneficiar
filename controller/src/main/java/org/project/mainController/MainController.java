@@ -1,12 +1,10 @@
 package org.project.mainController;
 
-
 import org.project.ConfigLoader;
 import org.project.Controller;
 import org.project.CreateImage;
 import org.project.Model;
-import org.project.entity.DisplayData;
-import org.project.entity.ScepticData;
+import org.project.entity.*;
 import org.project.mainModel.MainModel;
 
 import javax.swing.*;
@@ -159,5 +157,41 @@ public class MainController extends Controller {
     public void updateToggle(JMenuItem update) {
         isEditable = !isEditable;
         update.setText(addOrRemoveTick(update.getText(), isEditable));
+    }
+
+    public String[] getEnvironments() throws SQLException {
+        List<Environments> data = mainModel.getEnvironment();
+        String[] environments = new String[data.size()];
+
+        for(int i = 0; i < data.size(); i++) {
+            environments[i] = data.get(i).getEnvironment();
+        }
+        return environments;
+    }
+
+    public String[] getLocalities() throws SQLException {
+        List<Localities> data = mainModel.getLocality();
+        String[] localities = new String[data.size()];
+
+        for(int i = 0; i < data.size(); i++) {
+            localities[i] = data.get(i).getLocalityName();
+        }
+
+        return localities;
+    }
+
+    public String[] getCardNumbers() throws SQLException {
+        List<Cards> data = mainModel.getCard();
+        String[] cardNumbers = new String[data.size()];
+
+        for(int i = 0; i < data.size(); i++) {
+            cardNumbers[i] = data.get(i).getCardNr();
+        }
+
+        return cardNumbers;
+    }
+
+    public void addData(DisplayData displayData) throws SQLException {
+        mainModel.addData(displayData);
     }
 }
