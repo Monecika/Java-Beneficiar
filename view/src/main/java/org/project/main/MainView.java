@@ -168,7 +168,13 @@ public class MainView extends View {
         });
 
         add = mainComponents.getAdd();
-        add.addActionListener(e -> addBenPane());
+        add.addActionListener(e -> {
+            try {
+                addBenPane();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         update = mainComponents.getUpdate();
         update.addActionListener(e -> {
@@ -240,8 +246,21 @@ public class MainView extends View {
         table.repaint();
     }
 
-    private void addBenPane() {
-        AddBenOptionPane benOptionPane = new AddBenOptionPane();
+    private void addBenPane() throws SQLException {
+        JComboBox environment = new JComboBox(mainController.getEnvironments());
+        JComboBox locality = new JComboBox(mainController.getLocalities());
+        JComboBox card = new JComboBox(mainController.getCardNumbers());
+
+        int x = 304;
+        int y = 30;
+        environment.setPreferredSize(new Dimension(x, y));
+        locality.setPreferredSize(new Dimension(x, y));
+        card.setPreferredSize(new Dimension(x, y));
+
+        AddBenOptionPane benOptionPane = new AddBenOptionPane(environment, locality, card);
+        if (benOptionPane.getData() != null) mainController.addData(benOptionPane.getData());
+
+        updateTableData(mainController.returnData(), mainController.returnAllColumns());
     }
 
     private void setupTableProperties() {

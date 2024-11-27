@@ -1,5 +1,7 @@
 package org.project.main.components.table;
 
+import org.project.entity.DisplayData;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,36 +9,36 @@ public class AddBenOptionPane {
     private final JTextField name;
     private final JTextField surname;
     private final JTextField address;
-    private final JTextField documents;
     private final JTextField phone;
-    private final JComboBox environment;
-    private final JComboBox locality;
-    private final JComboBox card;
+    private final JTextField IDNP;
     private final JTextField email;
-
     private final JLabel information;
     private final JLabel nameLabel;
     private final JLabel surnameLabel;
     private final JLabel addressLabel;
     private final JLabel documentsLabel;
     private final JLabel phoneLabel;
+    private final JLabel IDNPLabel;
     private final JLabel environmentLabel;
     private final JLabel localityLabel;
     private final JLabel cardLabel;
     private final JLabel emailLabel;
-    JPanel panelOff;
+    private final JPanel panelOff;
+    private final JComboBox environment;
+    private final JComboBox locality;
+    private final JComboBox card;
     private int result;
 
-    public AddBenOptionPane() {
+    public AddBenOptionPane(JComboBox environment, JComboBox locality, JComboBox card) {
 
         name = new JTextField(30);
         surname = new JTextField(30);
         address = new JTextField(30);
-        documents = new JTextField(30);
         phone = new JTextField(30);
-        environment = new JComboBox();
-        locality = new JComboBox();
-        card = new JComboBox();
+        IDNP = new JTextField(30);
+        this.environment = environment;
+        this.locality = locality;
+        this.card = card;
         email = new JTextField(30);
 
         information = new JLabel("Information");
@@ -45,6 +47,7 @@ public class AddBenOptionPane {
         addressLabel = new JLabel("Address");
         documentsLabel = new JLabel("Documents");
         phoneLabel = new JLabel("Phone");
+        IDNPLabel = new JLabel("IDNP");
         environmentLabel = new JLabel("Environment");
         localityLabel = new JLabel("Locality");
         cardLabel = new JLabel("Card");
@@ -94,7 +97,7 @@ public class AddBenOptionPane {
         panel.add(documentsLabel, gbc);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        panel.add(documents, gbc);
+        panel.add(IDNP, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -134,24 +137,33 @@ public class AddBenOptionPane {
         return panel;
     }
 
-    public JTextField getName() {
-        return name;
+    public DisplayData getData() {
+        DisplayData displayData = null;
+        if (result == JOptionPane.OK_OPTION) {
+            displayData = new DisplayData("", getName(), getSurname(), getPhone(), getIDNP(), getAddress(), getEmail(), getLocality(), getEnvironment(), getCard());
+            System.out.println(displayData.toString());
+        }
+        return displayData;
     }
 
-    public JTextField getSurname() {
-        return surname;
+    public String getName() {
+        return name.getText();
     }
 
-    public JTextField getAddress() {
-        return address;
+    public String getSurname() {
+        return surname.getText();
     }
 
-    public JTextField getDocuments() {
-        return documents;
+    public String getAddress() {
+        return address.getText();
     }
 
-    public JTextField getPhone() {
-        return phone;
+    public String getPhone() {
+        return phone.getText();
+    }
+
+    public String getIDNP() {
+        return IDNP.getText();
     }
 
     public String getEnvironment() {
@@ -166,8 +178,8 @@ public class AddBenOptionPane {
         return card.getSelectedItem().toString();
     }
 
-    public JTextField getEmail() {
-        return email;
+    public String getEmail() {
+        return email.getText();
     }
 
     public int getResult() {
