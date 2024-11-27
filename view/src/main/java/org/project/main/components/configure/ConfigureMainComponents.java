@@ -33,4 +33,11 @@ public class ConfigureMainComponents {
         return button;
     }
 
+    public JTextField textField() {
+        JTextField textField = new JTextField(20);
+        textField.setMaximumSize(new Dimension(100, 20));
+
+        return textField;
+    }
+
 }

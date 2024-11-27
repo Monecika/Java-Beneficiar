@@ -25,10 +25,13 @@ public class MainComponents {
     private JMenu homeMenu;
     private JMenu editMenu;
     private JMenuItem update;
-//    private JMenuItem delete;
+    //    private JMenuItem delete;
     private JMenuItem add;
     private JPanel header;
     private JButton logoButton;
+
+    private JPanel searchPanel;
+    private JTextField searchField;
 
 
     public MainComponents() {
@@ -60,6 +63,10 @@ public class MainComponents {
 
         logoButton = configureMainComponents.logoButton();
         header = panels.initHeaderPanel();
+
+        searchPanel = panels.searchPanel();
+        searchField = configureMainComponents.textField();
+        searchPanel.add(searchField);
     }
 
     public JMenu getWindowMenu() {
@@ -220,5 +227,21 @@ public class MainComponents {
 
     public void setLogoButton(JButton logoButton) {
         this.logoButton = logoButton;
+    }
+
+    public JPanel getSearchPanel() {
+        return searchPanel;
+    }
+
+    public void setSearchPanel(JPanel searchPanel) {
+        this.searchPanel = searchPanel;
+    }
+
+    public JTextField getSearchField() {
+        return searchField;
+    }
+
+    public void setSearchField(JTextField searchField) {
+        this.searchField = searchField;
     }
 }
