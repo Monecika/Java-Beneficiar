@@ -41,11 +41,13 @@ public class MainView extends View {
     private JMenuItem viewSceptic;
     private JMenuItem update;
     private JMenuItem add;
+    private JMenuItem toggleSearch;
 
     private JTextField searchField;
 
     private boolean isEditable = false;
     private boolean isDarkTheme = false;
+    private boolean isVisible = false;
 
     private TableRowSorter<DefaultTableModel> sorter;
     private JTable table;
@@ -174,6 +176,16 @@ public class MainView extends View {
             revalidateBody();
         });
 
+        toggleSearch = mainComponents.getSearch();
+        toggleSearch.addActionListener(e -> {
+            isVisible = !isVisible;
+            searchField.setVisible(isVisible);
+            toggleSearch.setText(mainController.addOrRemoveTick(toggleSearch.getText(), isVisible));
+
+            header.repaint();
+            header.revalidate();
+        });
+
         searchField = mainComponents.getSearchField();
         searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
@@ -191,7 +203,7 @@ public class MainView extends View {
                 searchTable();
             }
         });
-
+        searchField.setVisible(false);
     }
 
     private void changeTheme() {

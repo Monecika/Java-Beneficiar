@@ -87,7 +87,7 @@ public class MainController extends Controller {
     }
 
     public String addOrRemoveTick(String text, boolean value) {
-        if (value) return text + "✔";
+        if (value) return text + " ✔";
         return text.substring(0, text.length() - 1);
     }
 
@@ -138,7 +138,6 @@ public class MainController extends Controller {
         return table;
     }
 
-
     public void setNameSortable(JMenuItem filterName, TableRowSorter<DefaultTableModel> sorter) {
         isNameSortable = !isNameSortable;
         filterName.setText(addOrRemoveTick(filterName.getText(), isNameSortable));
@@ -160,6 +159,5 @@ public class MainController extends Controller {
     public void updateToggle(JMenuItem update) {
         isEditable = !isEditable;
         update.setText(addOrRemoveTick(update.getText(), isEditable));
-
     }
 }
