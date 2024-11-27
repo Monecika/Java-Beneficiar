@@ -35,6 +35,38 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     }
 
     @Override
+    public Beneficiaries getObject(int id) throws SQLException {
+        Beneficiaries beneficiary = null;
+
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN)) {
+
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    beneficiary = extractBeneficiary(resultSet);
+                }
+            }
+        }
+        return beneficiary;
+    }
+
+    @Override
+    public Beneficiaries getBeneficiary(String number) throws SQLException {
+        Beneficiaries beneficiary = null;
+
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN_NUM)) {
+
+            statement.setString(1, number);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    beneficiary = extractBeneficiary(resultSet);
+                }
+            }
+            return beneficiary;
+        }
+    }
+
+    @Override
     public void add(Beneficiaries beneficiary) throws SQLException {
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
@@ -63,40 +95,8 @@ public class BeneficiariesDAOImplement implements BeneficiariesDAO {
     }
 
     @Override
-    public Beneficiaries getObject(int id) throws SQLException {
-        Beneficiaries beneficiary = null;
-
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN)) {
-
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    beneficiary = extractBeneficiary(resultSet);
-                }
-            }
-        }
-        return beneficiary;
-    }
-
-    @Override
     public void deleteBeneficiary(String number) throws SQLException {
 
-    }
-
-    @Override
-    public Beneficiaries getBeneficiary(String number) throws SQLException {
-        Beneficiaries beneficiary = null;
-
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BEN_NUM)) {
-
-            statement.setString(1, number);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    beneficiary = extractBeneficiary(resultSet);
-                }
-            }
-            return beneficiary;
-        }
     }
 
     private Beneficiaries extractBeneficiary(ResultSet resultSet) throws SQLException {

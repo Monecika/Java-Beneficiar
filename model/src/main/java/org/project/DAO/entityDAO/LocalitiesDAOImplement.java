@@ -34,34 +34,6 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
     }
 
     @Override
-    public void add(Localities localities) throws SQLException {
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_LOCALITY)) {
-
-            prepareStatement(statement, localities);
-            statement.executeUpdate();
-        }
-    }
-
-    @Override
-    public void update(Localities localities) throws SQLException {
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_LOCALITY)) {
-
-            prepareStatement(statement, localities);
-            statement.setInt(6, localities.getID());
-            statement.executeUpdate();
-        }
-    }
-
-    @Override
-    public void delete(Localities localities) throws SQLException {
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE_LOCALITY)) {
-
-            statement.setInt(1, localities.getID());
-            statement.executeUpdate();
-        }
-    }
-
-    @Override
     public Localities getObject(int id) throws SQLException {
         Localities localities = null;
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LOCALITY)) {
@@ -89,6 +61,34 @@ public class LocalitiesDAOImplement implements LocalitiesDAO {
             }
         }
         return localities;
+    }
+
+    @Override
+    public void add(Localities localities) throws SQLException {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_LOCALITY)) {
+
+            prepareStatement(statement, localities);
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void update(Localities localities) throws SQLException {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_LOCALITY)) {
+
+            prepareStatement(statement, localities);
+            statement.setInt(6, localities.getID());
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(Localities localities) throws SQLException {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE_LOCALITY)) {
+
+            statement.setInt(1, localities.getID());
+            statement.executeUpdate();
+        }
     }
 
     private Localities extractLocality(ResultSet resultSet) throws SQLException {

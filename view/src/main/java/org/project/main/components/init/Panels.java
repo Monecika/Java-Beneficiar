@@ -15,6 +15,7 @@ public class Panels {
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
         header.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         header.setBackground(Color.WHITE);
+
         return header;
     }
 

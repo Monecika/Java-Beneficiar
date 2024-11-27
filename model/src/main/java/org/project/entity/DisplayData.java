@@ -4,7 +4,7 @@ public class DisplayData extends Beneficiaries {
     private String localityName;
     private String cardNumber;
 
-    public DisplayData(String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, String localityName, String environment,String cardNumber) {
+    public DisplayData(String codeBen, String nameBen, String surnameBen, String phoneBen, String IDNP, String addressBen, String emailBen, String localityName, String environment, String cardNumber) {
         super(codeBen, nameBen, surnameBen, phoneBen, IDNP, addressBen, emailBen, environment);
         this.localityName = localityName;
         this.cardNumber = cardNumber;
@@ -34,7 +34,7 @@ public class DisplayData extends Beneficiaries {
 
     @Override
     public String toString() {
-        return  super.toString() + "localityName='" + localityName + '\'' + ", cardNumber='" + cardNumber + '\'' + '}';
+        return super.toString() + "localityName='" + localityName + '\'' + ", cardNumber='" + cardNumber + '\'' + '}';
     }
 
 

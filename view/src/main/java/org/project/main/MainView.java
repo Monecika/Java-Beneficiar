@@ -72,7 +72,6 @@ public class MainView extends View {
         header.add(mainComponents.getMenuBar());
         header.add(Box.createHorizontalGlue());
         header.add(mainComponents.getSearchPanel());
-//        header.remove(2);
         header.add(Box.createHorizontalGlue());
         header.add(logoButton);
 
@@ -212,21 +211,6 @@ public class MainView extends View {
         searchField.setVisible(false);
     }
 
-    private void changeTheme() {
-        isDarkTheme = !isDarkTheme;
-
-        logoButton.setIcon(isDarkTheme ? iconLight : iconDark);
-        if (isDarkTheme) {
-            initDark();
-            header.setBackground(grayColor);
-        } else {
-            initLight();
-            header.setBackground(Color.WHITE);
-        }
-
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
         model.addTableModelListener(e -> {
@@ -242,6 +226,45 @@ public class MainView extends View {
 
         table = mainController.tableMouseListener(table, model);
 
+        table.revalidate();
+        table.repaint();
+    }
+
+    private void setupTableProperties() {
+        TableColumnModel columnModel = table.getColumnModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            columnModel.getColumn(i).setResizable(false);
+            if (i != 0) sorter.setSortable(i, false);
+        }
+
+        int deleteButtonColumnIndex = table.getColumnCount() - 1;
+        columnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
+        columnModel.getColumn(6).setPreferredWidth(200);
+    }
+
+    private void handleTableUpdate(int row, int column) {
+        if (row == -1 || column == -1) {
+            return;
+        }
+
+        String[] updateData = new String[model.getColumnCount()];
+        for (int col = 0; col < model.getColumnCount(); col++) {
+            updateData[col] = (String) model.getValueAt(row, col);
+        }
+
+        try {
+            mainController.updateDisplayData(updateData);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void revalidateBody() {
+        isEditable = !isEditable;
         table.revalidate();
         table.repaint();
     }
@@ -263,45 +286,6 @@ public class MainView extends View {
         updateTableData(mainController.returnData(), mainController.returnAllColumns());
     }
 
-    private void setupTableProperties() {
-        TableColumnModel columnModel = table.getColumnModel();
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            columnModel.getColumn(i).setCellRenderer(centerRenderer);
-            columnModel.getColumn(i).setResizable(false);
-            if (i != 0) sorter.setSortable(i, false);
-        }
-
-        int deleteButtonColumnIndex = table.getColumnCount() - 1;
-        columnModel.getColumn(deleteButtonColumnIndex).setCellRenderer(new DeleteButtonRenderer(deleteIcon));
-        columnModel.getColumn(6).setPreferredWidth(200);
-    }
-
-    private void revalidateBody() {
-        isEditable = !isEditable;
-        table.revalidate();
-        table.repaint();
-    }
-
-    private void handleTableUpdate(int row, int column) {
-        if (row == -1 || column == -1) {
-            return;
-        }
-
-        String[] updateData = new String[model.getColumnCount()];
-        for (int col = 0; col < model.getColumnCount(); col++) {
-            updateData[col] = (String) model.getValueAt(row, col);
-        }
-
-        try {
-            mainController.updateDisplayData(updateData);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     private void searchTable() {
         String query = searchField.getText().trim();
         if (query.isEmpty()) {
@@ -309,6 +293,21 @@ public class MainView extends View {
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));
         }
+    }
+
+    private void changeTheme() {
+        isDarkTheme = !isDarkTheme;
+
+        logoButton.setIcon(isDarkTheme ? iconLight : iconDark);
+        if (isDarkTheme) {
+            initDark();
+            header.setBackground(grayColor);
+        } else {
+            initLight();
+            header.setBackground(Color.WHITE);
+        }
+
+        SwingUtilities.updateComponentTreeUI(frame);
     }
 
 }

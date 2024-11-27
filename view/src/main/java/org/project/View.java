@@ -16,6 +16,14 @@ public class View {
         this.controller = controller;
     }
 
+    public ImageIcon getIconDark() {
+        return controller.getDarkImageIcon();
+    }
+
+    public ImageIcon getIconLight() {
+        return controller.getLightImageIcon();
+    }
+
     protected JButton initIconButton() {
         iconDark = getIconDark();
 
@@ -42,13 +50,5 @@ public class View {
         UIManager.put("MenuItem.selectionBackground", null);
         UIManager.put("Table.selectionBackground", null);
         UIManager.put("List.selectionBackground", null);
-    }
-
-    public ImageIcon getIconDark() {
-        return controller.getDarkImageIcon();
-    }
-
-    public ImageIcon getIconLight() {
-        return controller.getLightImageIcon();
     }
 }

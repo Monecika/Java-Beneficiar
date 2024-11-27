@@ -10,9 +10,18 @@ public class Menus {
         this.mainComponents = mainComponents;
     }
 
-    public JMenuItem initMenuItem(String name) {
-        JMenuItem item = new JMenuItem(name);
-        return item;
+    public JMenuBar initMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(Color.WHITE);
+        menuBar.setBorderPainted(false);
+
+        menuBar.add(mainComponents.getHomeMenu());
+        menuBar.add(mainComponents.getEditMenu());
+        menuBar.add(mainComponents.getFilterMenu());
+        menuBar.add(mainComponents.getViewMenu());
+        menuBar.add(mainComponents.getWindowMenu());
+
+        return menuBar;
     }
 
     public JMenu initHomeMenu() {
@@ -26,7 +35,6 @@ public class Menus {
     public JMenu initEditMenu() {
         JMenu editMenu = new JMenu("Edit");
         editMenu.add(mainComponents.getUpdate());
-//        editMenu.add(mainComponents.getDelete());
         editMenu.add(mainComponents.getAdd());
         editMenu.setBorder(BorderFactory.createEmptyBorder(15, 30, 0, 30));
         editMenu.setFont(new Font("Ink Free", Font.PLAIN, 20));
@@ -69,17 +77,9 @@ public class Menus {
         return windowMenu;
     }
 
-    public JMenuBar initMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(Color.WHITE);
-        menuBar.setBorderPainted(false);
+    public JMenuItem initMenuItem(String name) {
+        JMenuItem item = new JMenuItem(name);
 
-        menuBar.add(mainComponents.getHomeMenu());
-        menuBar.add(mainComponents.getEditMenu());
-        menuBar.add(mainComponents.getFilterMenu());
-        menuBar.add(mainComponents.getViewMenu());
-        menuBar.add(mainComponents.getWindowMenu());
-
-        return menuBar;
+        return item;
     }
 }

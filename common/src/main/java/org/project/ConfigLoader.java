@@ -8,7 +8,7 @@ public class ConfigLoader {
     private static final Properties PROPERTIES = new Properties();
 
     private static void initPropFile(String key) {
-        String property = key.split("\\.")[0];  // Fixed regex issue
+        String property = key.split("\\.")[0];
         String propFileName = null;
 
         if ("db".equals(property)) {

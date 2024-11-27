@@ -33,6 +33,21 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
     }
 
     @Override
+    public Environments getObject(int id) throws SQLException {
+        Environments environment = null;
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ENV)) {
+
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    environment = extractEnvironment(resultSet);
+                }
+            }
+        }
+        return environment;
+    }
+
+    @Override
     public void add(Environments environments) throws SQLException {
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
@@ -58,21 +73,6 @@ public class EnvironmentsDAOImplement implements EnvironmentsDAO {
             statement.setInt(1, environments.getID());
             statement.executeUpdate();
         }
-    }
-
-    @Override
-    public Environments getObject(int id) throws SQLException {
-        Environments environment = null;
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ENV)) {
-
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    environment = extractEnvironment(resultSet);
-                }
-            }
-        }
-        return environment;
     }
 
     private Environments extractEnvironment(ResultSet resultSet) throws SQLException {

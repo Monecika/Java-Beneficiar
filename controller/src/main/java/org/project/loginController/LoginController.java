@@ -11,5 +11,4 @@ public class LoginController extends Controller {
         super(model);
         this.loginModel = loginModel;
     }
-
 }

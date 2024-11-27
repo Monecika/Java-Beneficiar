@@ -13,7 +13,6 @@ public class Controller {
         this.createImage = new CreateImage();
     }
 
-
     public ImageIcon getDarkImageIcon() {
         ImageIcon icon = new ImageIcon(createImage.createImageIcon(getDarkIcon()).getImage());
         return icon;

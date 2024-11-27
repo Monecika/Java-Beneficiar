@@ -1,12 +1,8 @@
 package org.project.main.components.configure;
 
 import org.project.main.components.init.MainComponents;
-import org.project.main.components.table.DeleteButtonRenderer;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
 public class ConfigureMainComponents {

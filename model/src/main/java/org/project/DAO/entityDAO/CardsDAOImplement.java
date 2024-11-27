@@ -35,34 +35,6 @@ public class CardsDAOImplement implements CardsDAO {
     }
 
     @Override
-    public void add(Cards card) throws SQLException {
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_CARD)) {
-
-            prepareStatement(statement, card);
-            statement.executeUpdate();
-        }
-    }
-
-    @Override
-    public void update(Cards card) throws SQLException {
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_CARD)) {
-
-            prepareStatement(statement, card);
-            statement.setInt(4, card.getID());
-            statement.executeUpdate();
-        }
-    }
-
-    @Override
-    public void delete(Cards card) throws SQLException {
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CARD)) {
-
-            statement.setInt(1, card.getID());
-            statement.executeUpdate();
-        }
-    }
-
-    @Override
     public Cards getObject(int id) throws SQLException {
         Cards card = null;
 
@@ -92,6 +64,34 @@ public class CardsDAOImplement implements CardsDAO {
             }
         }
         return card;
+    }
+
+    @Override
+    public void add(Cards card) throws SQLException {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_CARD)) {
+
+            prepareStatement(statement, card);
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void update(Cards card) throws SQLException {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_CARD)) {
+
+            prepareStatement(statement, card);
+            statement.setInt(4, card.getID());
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(Cards card) throws SQLException {
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CARD)) {
+
+            statement.setInt(1, card.getID());
+            statement.executeUpdate();
+        }
     }
 
     private Cards extractCard(ResultSet resultSet) throws SQLException {
