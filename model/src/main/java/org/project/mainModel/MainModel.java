@@ -26,39 +26,72 @@ public class MainModel extends Model {
         cardsDAOImplement = new CardsDAOImplement();
     }
 
-    public List<DisplayData> getDisplayData() throws SQLException {
-        return displayDataDAOImplement.getAll();
+    public List<DisplayData> getDisplayData() {
+        try {
+            return displayDataDAOImplement.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<ScepticData> getScepticData() throws SQLException {
-        return scepticDataDAOImplementation.getAll();
+    public List<ScepticData> getScepticData() {
+        try {
+            return scepticDataDAOImplementation.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<Environments> getEnvironment() throws SQLException {
-        return environmentsDAOImplement.getAll();
+    public List<Environments> getEnvironment() {
+        try {
+            return environmentsDAOImplement.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<Localities> getLocality() throws SQLException {
-        return localitiesDAOImplement.getAll();
+    public List<Localities> getLocality() {
+        try {
+            return localitiesDAOImplement.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<Cards> getCard() throws SQLException {
-        return cardsDAOImplement.getAll();
+    public List<Cards> getCard() {
+        try {
+            return cardsDAOImplement.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void addData(DisplayData displayData) throws SQLException {
-        displayDataDAOImplement.add(displayData);
+    public void addData(DisplayData displayData) {
+        try {
+            displayDataDAOImplement.add(displayData);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void updateDisplayData(String[] data) throws SQLException {
+    public void updateDisplayData(String[] data) {
         DisplayData displayData = new DisplayData(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]);
-        displayDataDAOImplement.update(displayData);
+        try {
+            displayDataDAOImplement.update(displayData);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void deleteBen(String number) throws SQLException {
-        Beneficiaries beneficiaries = beneficiariesDAOImplement.getBeneficiary(number);
-        beneficiariesDAOImplement.delete(beneficiaries);
+    public void deleteBen(String number) {
+        Beneficiaries beneficiaries;
+
+        try {
+            beneficiaries = beneficiariesDAOImplement.getBeneficiary(number);
+
+            beneficiariesDAOImplement.delete(beneficiaries);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
 }
