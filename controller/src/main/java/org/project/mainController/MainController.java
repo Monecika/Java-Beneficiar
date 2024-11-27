@@ -106,9 +106,15 @@ public class MainController extends Controller {
             public void mouseClicked(MouseEvent e) {
                 int column = table.getSelectedColumn();
                 int row = table.getSelectedRow();
-                if (column == 10 && row != -1) {
+                if (column == table.getColumnCount()-1 && row != -1) {
                     int modelRow = table.convertRowIndexToModel(row);
+                    String firstColumnData = (String) table.getValueAt(row, 0);
                     model.removeRow(modelRow);
+                    try {
+                        mainModel.deleteBen(firstColumnData);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
 
