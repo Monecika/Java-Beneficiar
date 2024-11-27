@@ -4,7 +4,6 @@ import org.project.DAO.entityDAO.*;
 import org.project.Model;
 import org.project.entity.*;
 
-import javax.smartcardio.Card;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,16 +34,6 @@ public class MainModel extends Model {
         return scepticDataDAOImplementation.getAll();
     }
 
-    public void updateDisplayData(String[] data) throws SQLException {
-        DisplayData displayData = new DisplayData(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]);
-        displayDataDAOImplement.update(displayData);
-    }
-
-    public void deleteBen(String number) throws SQLException {
-        Beneficiaries beneficiaries = beneficiariesDAOImplement.getBeneficiary(number);
-        beneficiariesDAOImplement.delete(beneficiaries);
-    }
-
     public List<Environments> getEnvironment() throws SQLException {
         return environmentsDAOImplement.getAll();
     }
@@ -59,6 +48,16 @@ public class MainModel extends Model {
 
     public void addData(DisplayData displayData) throws SQLException {
         displayDataDAOImplement.add(displayData);
+    }
+
+    public void updateDisplayData(String[] data) throws SQLException {
+        DisplayData displayData = new DisplayData(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]);
+        displayDataDAOImplement.update(displayData);
+    }
+
+    public void deleteBen(String number) throws SQLException {
+        Beneficiaries beneficiaries = beneficiariesDAOImplement.getBeneficiary(number);
+        beneficiariesDAOImplement.delete(beneficiaries);
     }
 
 

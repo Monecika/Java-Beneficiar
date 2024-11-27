@@ -25,7 +25,6 @@ public class MainComponents {
     private JMenu homeMenu;
     private JMenu editMenu;
     private JMenuItem update;
-    //    private JMenuItem delete;
     private JMenuItem add;
     private JPanel header;
     private JButton logoButton;
@@ -41,7 +40,6 @@ public class MainComponents {
 
 
         update = menus.initMenuItem("Update User");
-//        delete = menus.initMenuItem("Delete User");
         add = menus.initMenuItem("Add User");
         filterName = menus.initMenuItem("Filter User");
         filterSurname = menus.initMenuItem("Filter Surname");
@@ -196,14 +194,6 @@ public class MainComponents {
     public void setUpdate(JMenuItem update) {
         this.update = update;
     }
-
-//    public JMenuItem getDelete() {
-//        return delete;
-//    }
-//
-//    public void setDelete(JMenuItem delete) {
-//        this.delete = delete;
-//    }
 
     public JMenuItem getAdd() {
         return add;

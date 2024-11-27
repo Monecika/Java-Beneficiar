@@ -23,6 +23,7 @@ public class DeleteButtonRenderer extends DefaultTableCellRenderer {
         } else {
             button.setBackground(table.getBackground());
         }
+
         return button;
     }
 }

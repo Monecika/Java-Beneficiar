@@ -27,7 +27,6 @@ public class MainController extends Controller {
     private boolean isLocalitySortable = false;
     private boolean isEditable = false;
 
-
     public MainController(Model model, MainModel mainModel) {
         super(model);
         this.mainModel = mainModel;
@@ -38,7 +37,6 @@ public class MainController extends Controller {
     public void updateDisplayData(String[] data) throws SQLException {
         mainModel.updateDisplayData(data);
     }
-
 
     public List<String[]> returnData() throws SQLException {
 
@@ -84,18 +82,41 @@ public class MainController extends Controller {
         return columnNames;
     }
 
+    public String[] getEnvironments() throws SQLException {
+        List<Environments> data = mainModel.getEnvironment();
+        String[] environments = new String[data.size()];
+
+        for (int i = 0; i < data.size(); i++) {
+            environments[i] = data.get(i).getEnvironment();
+        }
+        return environments;
+    }
+
+    public String[] getLocalities() throws SQLException {
+        List<Localities> data = mainModel.getLocality();
+        String[] localities = new String[data.size()];
+
+        for (int i = 0; i < data.size(); i++) {
+            localities[i] = data.get(i).getLocalityName();
+        }
+
+        return localities;
+    }
+
+    public String[] getCardNumbers() throws SQLException {
+        List<Cards> data = mainModel.getCard();
+        String[] cardNumbers = new String[data.size()];
+
+        for (int i = 0; i < data.size(); i++) {
+            cardNumbers[i] = data.get(i).getCardNr();
+        }
+
+        return cardNumbers;
+    }
+
     public String addOrRemoveTick(String text, boolean value) {
         if (value) return text + " ✔";
         return text.substring(0, text.length() - 1);
-    }
-
-    public ImageIcon getDeleteImageIcon() {
-        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getDeleteIcon()).getImage());
-        return icon;
-    }
-
-    private String getDeleteIcon() {
-        return ConfigLoader.getProperty("img.DELETE_ICON_PATH");
     }
 
     public JTable tableMouseListener(JTable table, DefaultTableModel model) {
@@ -104,7 +125,7 @@ public class MainController extends Controller {
             public void mouseClicked(MouseEvent e) {
                 int column = table.getSelectedColumn();
                 int row = table.getSelectedRow();
-                if (column == table.getColumnCount()-1 && row != -1) {
+                if (column == table.getColumnCount() - 1 && row != -1) {
                     int modelRow = table.convertRowIndexToModel(row);
                     String firstColumnData = (String) table.getValueAt(row, 0);
                     model.removeRow(modelRow);
@@ -159,39 +180,16 @@ public class MainController extends Controller {
         update.setText(addOrRemoveTick(update.getText(), isEditable));
     }
 
-    public String[] getEnvironments() throws SQLException {
-        List<Environments> data = mainModel.getEnvironment();
-        String[] environments = new String[data.size()];
-
-        for(int i = 0; i < data.size(); i++) {
-            environments[i] = data.get(i).getEnvironment();
-        }
-        return environments;
-    }
-
-    public String[] getLocalities() throws SQLException {
-        List<Localities> data = mainModel.getLocality();
-        String[] localities = new String[data.size()];
-
-        for(int i = 0; i < data.size(); i++) {
-            localities[i] = data.get(i).getLocalityName();
-        }
-
-        return localities;
-    }
-
-    public String[] getCardNumbers() throws SQLException {
-        List<Cards> data = mainModel.getCard();
-        String[] cardNumbers = new String[data.size()];
-
-        for(int i = 0; i < data.size(); i++) {
-            cardNumbers[i] = data.get(i).getCardNr();
-        }
-
-        return cardNumbers;
-    }
-
     public void addData(DisplayData displayData) throws SQLException {
         mainModel.addData(displayData);
+    }
+
+    public ImageIcon getDeleteImageIcon() {
+        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getDeleteIcon()).getImage());
+        return icon;
+    }
+
+    private String getDeleteIcon() {
+        return ConfigLoader.getProperty("img.DELETE_ICON_PATH");
     }
 }

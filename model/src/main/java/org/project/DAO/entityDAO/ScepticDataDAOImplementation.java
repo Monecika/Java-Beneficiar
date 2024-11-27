@@ -29,6 +29,11 @@ public class ScepticDataDAOImplementation implements CrudDAO<ScepticData> {
     }
 
     @Override
+    public ScepticData getObject(int id) throws SQLException {
+        return null;
+    }
+
+    @Override
     public void add(ScepticData scepticData) throws SQLException {
 
     }
@@ -41,10 +46,5 @@ public class ScepticDataDAOImplementation implements CrudDAO<ScepticData> {
     @Override
     public void delete(ScepticData scepticData) throws SQLException {
 
-    }
-
-    @Override
-    public ScepticData getObject(int id) throws SQLException {
-        return null;
     }
 }

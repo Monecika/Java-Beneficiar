@@ -10,6 +10,16 @@ public class Panels {
         components = new RegisterComponents();
     }
 
+    public JPanel initAndConfigureHeaderPanel(JButton button) {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        headerPanel.add(components.getLogo(), BorderLayout.CENTER);
+        headerPanel.add(button, BorderLayout.EAST);
+
+        return headerPanel;
+    }
+
     public JPanel initAndConfigureLeftPanel() {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -47,15 +57,5 @@ public class Panels {
         rightPanel.add(components.getSignupPrompt());
 
         return rightPanel;
-    }
-
-    public JPanel initAndConfigureHeaderPanel(JButton button) {
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        headerPanel.add(components.getLogo(), BorderLayout.CENTER);
-        headerPanel.add(button, BorderLayout.EAST);
-
-        return headerPanel;
     }
 }

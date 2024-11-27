@@ -36,6 +36,23 @@ public class RolesDAOImplement implements RolesDAO {
     }
 
     @Override
+    public Roles getObject(int id) throws SQLException {
+        Roles role = null;
+
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
+
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    role = extractRole(resultSet);
+                }
+            }
+        }
+
+        return role;
+    }
+
+    @Override
     public void add(Roles role) throws SQLException {
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
@@ -61,23 +78,6 @@ public class RolesDAOImplement implements RolesDAO {
             statement.setInt(1, role.getID());
             statement.executeUpdate();
         }
-    }
-
-    @Override
-    public Roles getObject(int id) throws SQLException {
-        Roles role = null;
-
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
-
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    role = extractRole(resultSet);
-                }
-            }
-        }
-
-        return role;
     }
 
     private Roles extractRole(ResultSet resultSet) throws SQLException {

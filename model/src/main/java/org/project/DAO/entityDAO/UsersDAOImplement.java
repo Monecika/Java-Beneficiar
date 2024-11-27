@@ -35,6 +35,22 @@ public class UsersDAOImplement implements UsersDAO {
     }
 
     @Override
+    public Users getObject(int id) throws SQLException {
+        Users user = null;
+
+        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
+
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = extractUser(resultSet);
+                }
+            }
+        }
+        return user;
+    }
+
+    @Override
     public void add(Users user) throws SQLException {
         try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
 
@@ -66,22 +82,6 @@ public class UsersDAOImplement implements UsersDAO {
             statement.setInt(1, user.getID());
             statement.executeUpdate();
         }
-    }
-
-    @Override
-    public Users getObject(int id) throws SQLException {
-        Users user = null;
-
-        try (Connection connection = Database.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
-
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    user = extractUser(resultSet);
-                }
-            }
-        }
-        return user;
     }
 
     private Users extractUser(ResultSet resultSet) throws SQLException {

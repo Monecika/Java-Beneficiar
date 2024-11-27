@@ -30,7 +30,6 @@ public class AddBenOptionPane {
     private int result;
 
     public AddBenOptionPane(JComboBox environment, JComboBox locality, JComboBox card) {
-
         name = new JTextField(30);
         surname = new JTextField(30);
         address = new JTextField(30);
@@ -141,10 +140,11 @@ public class AddBenOptionPane {
         DisplayData displayData = null;
         if (result == JOptionPane.OK_OPTION) {
             displayData = new DisplayData("", getName(), getSurname(), getPhone(), getIDNP(), getAddress(), getEmail(), getLocality(), getEnvironment(), getCard());
-            System.out.println(displayData.toString());
+            System.out.println(displayData);
         }
         return displayData;
     }
+
 
     public String getName() {
         return name.getText();
@@ -180,9 +180,5 @@ public class AddBenOptionPane {
 
     public String getEmail() {
         return email.getText();
-    }
-
-    public int getResult() {
-        return result;
     }
 }

@@ -59,13 +59,17 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
         return displayDataList;
     }
 
+    @Override
+    public DisplayData getObject(int id) throws SQLException {
+        return null;
+    }
 
     @Override
     public void add(DisplayData displayData) throws SQLException {
         Localities locality = localitiesDAO.getLocality(displayData.getLocalityName());
         Cards card = cardsDAO.getCard(displayData.getCardNumber());
 
-        int number = beneficiariesDAO.getAll().size() +1 ;
+        int number = beneficiariesDAO.getAll().size() + 1;
         String code = "BEN" + number;
         displayData.setCodeBen(code);
         Beneficiaries beneficiary = new Beneficiaries(0, displayData.getCodeBen(), displayData.getNameBen(), displayData.getSurnameBen(), displayData.getPhoneBen(), displayData.getIDNP(), displayData.getAddressBen(), displayData.getEmailBen(), locality.getID(), displayData.getEnvironment(), card.getID());
@@ -95,11 +99,4 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
     public void delete(DisplayData displayData) throws SQLException {
 
     }
-
-    @Override
-    public DisplayData getObject(int id) throws SQLException {
-        return null;
-    }
-
-
 }
