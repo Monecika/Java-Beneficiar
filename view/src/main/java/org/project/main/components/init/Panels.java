@@ -4,10 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Panels {
-    private final MainComponents mainComponents;
 
-    public Panels(MainComponents mainComponents) {
-        this.mainComponents = mainComponents;
+    public Panels() {
     }
 
     public JPanel initHeaderPanel() {

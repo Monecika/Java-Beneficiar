@@ -9,34 +9,34 @@ public class MainComponents {
     private final Menus menus;
     private final Panels panels;
 
-    private JMenu windowMenu;
-    private JMenuItem search;
-    private JMenu viewMenu;
-    private JMenuItem viewAll;
-    private JMenuItem viewRural;
-    private JMenuItem viewSceptic;
-    private JMenuItem export;
-    private JMenu filterMenu;
-    private JMenuItem filterName;
-    private JMenuItem filterSurname;
-    private JMenuItem filterRegion;
-    private JLabel logo;
-    private JMenuBar menuBar;
-    private JMenu homeMenu;
-    private JMenu editMenu;
-    private JMenuItem update;
-    private JMenuItem add;
-    private JPanel header;
-    private JButton logoButton;
+    private final JMenu windowMenu;
+    private final JMenuItem search;
+    private final JMenu viewMenu;
+    private final JMenuItem viewAll;
+    private final JMenuItem viewRural;
+    private final JMenuItem viewSceptic;
+    private final JMenuItem export;
+    private final JMenu filterMenu;
+    private final JMenuItem filterName;
+    private final JMenuItem filterSurname;
+    private final JMenuItem filterRegion;
+    private final JLabel logo;
+    private final JMenuBar menuBar;
+    private final JMenu homeMenu;
+    private final JMenu editMenu;
+    private final JMenuItem update;
+    private final JMenuItem add;
+    private final JPanel header;
+    private final JButton logoButton;
 
-    private JPanel searchPanel;
-    private JTextField searchField;
+    private final JPanel searchPanel;
+    private final JTextField searchField;
 
 
     public MainComponents() {
-        this.configureMainComponents = new ConfigureMainComponents(this);
+        this.configureMainComponents = new ConfigureMainComponents();
         this.menus = new Menus(this);
-        this.panels = new Panels(this);
+        this.panels = new Panels();
 
 
         update = menus.initMenuItem("Update User");
@@ -71,167 +71,83 @@ public class MainComponents {
         return windowMenu;
     }
 
-    public void setWindowMenu(JMenu windowMenu) {
-        this.windowMenu = windowMenu;
-    }
-
     public JMenuItem getSearch() {
         return search;
-    }
-
-    public void setSearch(JMenuItem search) {
-        this.search = search;
     }
 
     public JMenu getViewMenu() {
         return viewMenu;
     }
 
-    public void setViewMenu(JMenu viewMenu) {
-        this.viewMenu = viewMenu;
-    }
-
     public JMenuItem getViewAll() {
         return viewAll;
-    }
-
-    public void setViewAll(JMenuItem viewAll) {
-        this.viewAll = viewAll;
     }
 
     public JMenuItem getViewRural() {
         return viewRural;
     }
 
-    public void setViewRural(JMenuItem viewRural) {
-        this.viewRural = viewRural;
-    }
-
     public JMenuItem getViewSceptic() {
         return viewSceptic;
-    }
-
-    public void setViewSceptic(JMenuItem viewSceptic) {
-        this.viewSceptic = viewSceptic;
     }
 
     public JMenuItem getExport() {
         return export;
     }
 
-    public void setExport(JMenuItem export) {
-        this.export = export;
-    }
-
     public JMenu getFilterMenu() {
         return filterMenu;
-    }
-
-    public void setFilterMenu(JMenu filterMenu) {
-        this.filterMenu = filterMenu;
     }
 
     public JMenuItem getFilterName() {
         return filterName;
     }
 
-    public void setFilterName(JMenuItem filterName) {
-        this.filterName = filterName;
-    }
-
     public JMenuItem getFilterSurname() {
         return filterSurname;
-    }
-
-    public void setFilterSurname(JMenuItem filterSurname) {
-        this.filterSurname = filterSurname;
     }
 
     public JMenuItem getFilterRegion() {
         return filterRegion;
     }
 
-    public void setFilterRegion(JMenuItem filterRegion) {
-        this.filterRegion = filterRegion;
-    }
-
     public JLabel getLogo() {
         return logo;
-    }
-
-    public void setLogo(JLabel logo) {
-        this.logo = logo;
     }
 
     public JMenuBar getMenuBar() {
         return menuBar;
     }
 
-    public void setMenuBar(JMenuBar menuBar) {
-        this.menuBar = menuBar;
-    }
-
     public JMenu getHomeMenu() {
         return homeMenu;
-    }
-
-    public void setHomeMenu(JMenu homeMenu) {
-        this.homeMenu = homeMenu;
     }
 
     public JMenu getEditMenu() {
         return editMenu;
     }
 
-    public void setEditMenu(JMenu editMenu) {
-        this.editMenu = editMenu;
-    }
-
     public JMenuItem getUpdate() {
         return update;
-    }
-
-    public void setUpdate(JMenuItem update) {
-        this.update = update;
     }
 
     public JMenuItem getAdd() {
         return add;
     }
 
-    public void setAdd(JMenuItem add) {
-        this.add = add;
-    }
-
     public JPanel getHeader() {
         return header;
-    }
-
-    public void setHeader(JPanel header) {
-        this.header = header;
     }
 
     public JButton getLogoButton() {
         return logoButton;
     }
 
-    public void setLogoButton(JButton logoButton) {
-        this.logoButton = logoButton;
-    }
-
     public JPanel getSearchPanel() {
         return searchPanel;
     }
 
-    public void setSearchPanel(JPanel searchPanel) {
-        this.searchPanel = searchPanel;
-    }
-
     public JTextField getSearchField() {
         return searchField;
-    }
-
-    public void setSearchField(JTextField searchField) {
-        this.searchField = searchField;
     }
 }

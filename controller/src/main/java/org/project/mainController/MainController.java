@@ -72,14 +72,12 @@ public class MainController extends Controller {
     }
 
     public String[] returnAllColumns() {
-        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "Locality", "Environment", "CardNumber", "Operations"};
-        return columnNames;
+        return new String[]{"BeneficiaryId", "Name", "Surname", "Phone Number", "IDNP", "Address", "Email", "Locality", "Environment", "CardNumber", "Operations"};
     }
 
     public String[] returnScepticDataColumns() {
-        String[] columnNames = {"BeneficiaryId", "Name", "Surname", "Phone Number", "Address", "Email", "Operations"};
 
-        return columnNames;
+        return new String[]{"BeneficiaryId", "Name", "Surname", "Phone Number", "Address", "Email", "Operations"};
     }
 
     public String[] getEnvironments() throws SQLException {
@@ -185,8 +183,7 @@ public class MainController extends Controller {
     }
 
     public ImageIcon getDeleteImageIcon() {
-        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getDeleteIcon()).getImage());
-        return icon;
+        return new ImageIcon(createImage.createImageIcon(getDeleteIcon()).getImage());
     }
 
     private String getDeleteIcon() {

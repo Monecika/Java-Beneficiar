@@ -7,8 +7,8 @@ import javax.swing.*;
 public class RegisterComponents extends LoginComponents {
     private final ConfigureRegisterComponents components;
 
-    private JLabel noAccountLabel;
-    private JLabel signupPrompt;
+    private final JLabel noAccountLabel;
+    private final JLabel signupPrompt;
 
     public RegisterComponents() {
         super();
@@ -22,16 +22,8 @@ public class RegisterComponents extends LoginComponents {
         return noAccountLabel;
     }
 
-    public void setNoAccountLabel(JLabel noAccountLabel) {
-        this.noAccountLabel = noAccountLabel;
-    }
-
     public JLabel getSignupPrompt() {
         return signupPrompt;
-    }
-
-    public void setSignupPrompt(JLabel signupPrompt) {
-        this.signupPrompt = signupPrompt;
     }
 
     @Override

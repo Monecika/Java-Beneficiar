@@ -4,6 +4,7 @@ import org.project.entity.DisplayData;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class AddBenOptionPane {
     private final JTextField name;
@@ -18,7 +19,6 @@ public class AddBenOptionPane {
     private final JLabel addressLabel;
     private final JLabel documentsLabel;
     private final JLabel phoneLabel;
-    private final JLabel IDNPLabel;
     private final JLabel environmentLabel;
     private final JLabel localityLabel;
     private final JLabel cardLabel;
@@ -46,7 +46,6 @@ public class AddBenOptionPane {
         addressLabel = new JLabel("Address");
         documentsLabel = new JLabel("Documents");
         phoneLabel = new JLabel("Phone");
-        IDNPLabel = new JLabel("IDNP");
         environmentLabel = new JLabel("Environment");
         localityLabel = new JLabel("Locality");
         cardLabel = new JLabel("Card");
@@ -140,11 +139,9 @@ public class AddBenOptionPane {
         DisplayData displayData = null;
         if (result == JOptionPane.OK_OPTION) {
             displayData = new DisplayData("", getName(), getSurname(), getPhone(), getIDNP(), getAddress(), getEmail(), getLocality(), getEnvironment(), getCard());
-            System.out.println(displayData);
         }
         return displayData;
     }
-
 
     public String getName() {
         return name.getText();
@@ -167,15 +164,15 @@ public class AddBenOptionPane {
     }
 
     public String getEnvironment() {
-        return environment.getSelectedItem().toString();
+        return Objects.requireNonNull(environment.getSelectedItem()).toString();
     }
 
     public String getLocality() {
-        return locality.getSelectedItem().toString();
+        return Objects.requireNonNull(locality.getSelectedItem()).toString();
     }
 
     public String getCard() {
-        return card.getSelectedItem().toString();
+        return Objects.requireNonNull(card.getSelectedItem()).toString();
     }
 
     public String getEmail() {

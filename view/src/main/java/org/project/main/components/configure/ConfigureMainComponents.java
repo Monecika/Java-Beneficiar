@@ -1,15 +1,10 @@
 package org.project.main.components.configure;
 
-import org.project.main.components.init.MainComponents;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class ConfigureMainComponents {
-    private final MainComponents mainComponents;
-
-    public ConfigureMainComponents(MainComponents mainComponents) {
-        this.mainComponents = mainComponents;
+    public ConfigureMainComponents() {
     }
 
     public JLabel initLogo() {

@@ -16,20 +16,20 @@ public class ScepticDataDAOImplementation implements CrudDAO<ScepticData> {
         List<Beneficiaries> beneficiariesList = beneficiariesDAO.getAll();
         List<ScepticData> scepticDataList = new ArrayList<>();
 
-        ScepticData scepticData = null;
-        Beneficiaries beneficiaries = null;
+        ScepticData scepticData;
+        Beneficiaries beneficiaries;
 
-        while (beneficiariesList.size() > 0) {
-            beneficiaries = beneficiariesList.get(0);
+        while (!beneficiariesList.isEmpty()) {
+            beneficiaries = beneficiariesList.getFirst();
             scepticData = new ScepticData(beneficiaries.getID(), beneficiaries.getCodeBen(), beneficiaries.getNameBen(), beneficiaries.getSurnameBen(), beneficiaries.getPhoneBen(), beneficiaries.getAddressBen(), beneficiaries.getEmailBen());
             scepticDataList.add(scepticData);
-            beneficiariesList.remove(0);
+            beneficiariesList.removeFirst();
         }
         return scepticDataList;
     }
 
     @Override
-    public ScepticData getObject(int id) throws SQLException {
+    public ScepticData getObject(int id) {
         return null;
     }
 

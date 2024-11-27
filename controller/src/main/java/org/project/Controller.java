@@ -14,13 +14,11 @@ public class Controller {
     }
 
     public ImageIcon getDarkImageIcon() {
-        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getDarkIcon()).getImage());
-        return icon;
+        return new ImageIcon(createImage.createImageIcon(getDarkIcon()).getImage());
     }
 
     public ImageIcon getLightImageIcon() {
-        ImageIcon icon = new ImageIcon(createImage.createImageIcon(getLightIcon()).getImage());
-        return icon;
+        return new ImageIcon(createImage.createImageIcon(getLightIcon()).getImage());
     }
 
     public String getDarkIcon() {

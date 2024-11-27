@@ -25,16 +25,14 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
     public List<DisplayData> getAll() throws SQLException {
         List<DisplayData> displayDataList = new ArrayList<>();
         List<Beneficiaries> beneficiariesList = beneficiariesDAO.getAll();
-        List<Cards> cardsList = cardsDAO.getAll();
-        List<Localities> localitiesList = localitiesDAO.getAll();
 
-        DisplayData displayData = null;
-        Beneficiaries beneficiaries = null;
-        Localities localities = null;
-        Cards cards = null;
+        DisplayData displayData;
+        Beneficiaries beneficiaries;
+        Localities localities;
+        Cards cards;
 
-        while (beneficiariesList.size() > 0) {
-            beneficiaries = beneficiariesList.get(0);
+        while (!beneficiariesList.isEmpty()) {
+            beneficiaries = beneficiariesList.getFirst();
             int id = beneficiaries.getID();
             String benID = beneficiaries.getCodeBen();
             String name = beneficiaries.getNameBen();
@@ -60,7 +58,7 @@ public class DisplayDataDAOImplement implements CrudDAO<DisplayData> {
     }
 
     @Override
-    public DisplayData getObject(int id) throws SQLException {
+    public DisplayData getObject(int id) {
         return null;
     }
 

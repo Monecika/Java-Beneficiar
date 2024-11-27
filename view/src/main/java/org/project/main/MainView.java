@@ -30,17 +30,12 @@ public class MainView extends View {
     private final ImageIcon deleteIcon;
 
     private JFrame frame;
-    private JPanel bodyPanel;
     private JPanel header;
     private JButton logoButton;
     private JMenuItem filterName;
     private JMenuItem filterSurname;
     private JMenuItem filterLocality;
-    private JMenuItem viewAll;
-    private JMenuItem viewRural;
-    private JMenuItem viewSceptic;
     private JMenuItem update;
-    private JMenuItem add;
     private JMenuItem toggleSearch;
 
     private JTextField searchField;
@@ -75,7 +70,7 @@ public class MainView extends View {
         header.add(Box.createHorizontalGlue());
         header.add(logoButton);
 
-        bodyPanel = initBody();
+        JPanel bodyPanel = initBody();
 
         frame.add(header, BorderLayout.NORTH);
         frame.add(bodyPanel, BorderLayout.CENTER);
@@ -128,19 +123,19 @@ public class MainView extends View {
     private void initMenuItems() {
         logoButton = mainComponents.getLogoButton();
         logoButton.setIcon(iconDark);
-        logoButton.addActionListener(e -> changeTheme());
+        logoButton.addActionListener(_ -> changeTheme());
 
         filterName = mainComponents.getFilterName();
-        filterName.addActionListener(e -> mainController.setNameSortable(filterName, sorter));
+        filterName.addActionListener(_ -> mainController.setNameSortable(filterName, sorter));
 
         filterSurname = mainComponents.getFilterSurname();
-        filterSurname.addActionListener(e -> mainController.setSurnameSortable(filterSurname, sorter));
+        filterSurname.addActionListener(_ -> mainController.setSurnameSortable(filterSurname, sorter));
 
         filterLocality = mainComponents.getFilterRegion();
-        filterLocality.addActionListener(e -> mainController.setLocalitySortable(filterLocality, sorter));
+        filterLocality.addActionListener(_ -> mainController.setLocalitySortable(filterLocality, sorter));
 
-        viewAll = mainComponents.getViewAll();
-        viewAll.addActionListener(e -> {
+        JMenuItem viewAll = mainComponents.getViewAll();
+        viewAll.addActionListener(_ -> {
             try {
                 updateTableData(mainController.returnData(), mainController.returnAllColumns());
             } catch (SQLException ex) {
@@ -148,8 +143,8 @@ public class MainView extends View {
             }
         });
 
-        viewRural = mainComponents.getViewRural();
-        viewRural.addActionListener(e -> {
+        JMenuItem viewRural = mainComponents.getViewRural();
+        viewRural.addActionListener(_ -> {
             try {
                 updateTableData(mainController.returnFilteredData(), mainController.returnAllColumns());
             } catch (SQLException ex) {
@@ -157,8 +152,8 @@ public class MainView extends View {
             }
         });
 
-        viewSceptic = mainComponents.getViewSceptic();
-        viewSceptic.addActionListener(e -> {
+        JMenuItem viewSceptic = mainComponents.getViewSceptic();
+        viewSceptic.addActionListener(_ -> {
             try {
                 updateTableData(mainController.returnScepticData(), mainController.returnScepticDataColumns());
             } catch (SQLException ex) {
@@ -166,8 +161,8 @@ public class MainView extends View {
             }
         });
 
-        add = mainComponents.getAdd();
-        add.addActionListener(e -> {
+        JMenuItem add = mainComponents.getAdd();
+        add.addActionListener(_ -> {
             try {
                 addBenPane();
             } catch (SQLException ex) {
@@ -176,13 +171,13 @@ public class MainView extends View {
         });
 
         update = mainComponents.getUpdate();
-        update.addActionListener(e -> {
+        update.addActionListener(_ -> {
             mainController.updateToggle(update);
             revalidateBody();
         });
 
         toggleSearch = mainComponents.getSearch();
-        toggleSearch.addActionListener(e -> {
+        toggleSearch.addActionListener(_ -> {
             isVisible = !isVisible;
             searchField.setVisible(isVisible);
             toggleSearch.setText(mainController.addOrRemoveTick(toggleSearch.getText(), isVisible));

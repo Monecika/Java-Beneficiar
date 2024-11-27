@@ -78,8 +78,7 @@ public class Menus {
     }
 
     public JMenuItem initMenuItem(String name) {
-        JMenuItem item = new JMenuItem(name);
 
-        return item;
+        return new JMenuItem(name);
     }
 }

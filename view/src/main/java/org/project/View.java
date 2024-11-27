@@ -8,9 +8,6 @@ import java.awt.*;
 
 public class View {
     protected final Controller controller;
-    private ImageIcon iconDark;
-    private ImageIcon iconLight;
-    private JButton iconButton;
 
     public View(Controller controller) {
         this.controller = controller;
@@ -25,9 +22,9 @@ public class View {
     }
 
     protected JButton initIconButton() {
-        iconDark = getIconDark();
+        ImageIcon iconDark = getIconDark();
 
-        iconButton = new JButton(iconDark);
+        JButton iconButton = new JButton(iconDark);
         iconButton.setContentAreaFilled(false);
         iconButton.setFocusPainted(false);
         iconButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
