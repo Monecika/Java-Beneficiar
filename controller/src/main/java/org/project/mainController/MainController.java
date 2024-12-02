@@ -18,6 +18,7 @@ import java.util.List;
 
 public class MainController extends Controller {
     private final MainModel mainModel;
+    private final ExportHandler exportHandler;
 
     private final CreateImage createImage;
 
@@ -31,6 +32,8 @@ public class MainController extends Controller {
         this.mainModel = mainModel;
 
         this.createImage = new CreateImage();
+        this.exportHandler = new ExportHandler();
+
     }
 
     public void updateDisplayData(String[] data) {
@@ -176,6 +179,16 @@ public class MainController extends Controller {
 
     public void addData(DisplayData displayData) {
         mainModel.addData(displayData);
+    }
+
+    public void handleExportRequest(JTable table, String filePath){
+        if (filePath.endsWith(".pdf")) {
+            exportHandler.exportToPDF(table, filePath);
+        } else if (filePath.endsWith(".xlsx")) {
+            exportHandler.exportToExcel(table, filePath);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please specify a valid file extension (.pdf or .xlsx)");
+        }
     }
 
     public ImageIcon getDeleteImageIcon() {

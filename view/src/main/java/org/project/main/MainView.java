@@ -180,7 +180,17 @@ public class MainView extends View {
             }
         });
         searchField.setVisible(false);
-    }
+
+        JMenuItem exportUsers = mainComponents.getExport();
+        exportUsers.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int option = fileChooser.showSaveDialog(null);
+            if (option == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                mainController.handleExportRequest(table, filePath);
+            }
+        });
+}
 
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
@@ -258,7 +268,15 @@ public class MainView extends View {
         if (query.isEmpty()) {
             sorter.setRowFilter(null);
         } else {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));
+            sorter.setRowFilter(new RowFilter<javax.swing.table.TableModel, Integer>() {
+                @Override
+                public boolean include(RowFilter.Entry<? extends javax.swing.table.TableModel, ? extends Integer> entry) {
+                    String column1 = entry.getStringValue(1);
+                    String column2 = entry.getStringValue(2);
+                    return column1.toLowerCase().contains(query.toLowerCase()) ||
+                            column2.toLowerCase().contains(query.toLowerCase());
+                }
+            });
         }
     }
 
