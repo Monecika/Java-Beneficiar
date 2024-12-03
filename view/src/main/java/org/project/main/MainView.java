@@ -190,26 +190,28 @@ public class MainView extends View {
                 mainController.handleExportRequest(table, filePath);
             }
         });
-}
+    }
 
     public void updateTableData(List<String[]> newData, String[] newColumnNames) {
         model.setDataVector(newData.toArray(new String[0][0]), newColumnNames);
+
         model.addTableModelListener(e -> {
             if (e.getType() == TableModelEvent.UPDATE) {
                 handleTableUpdate(e.getFirstRow(), e.getColumn());
             }
         });
 
-        setupTableProperties();
-
         sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
+        setupTableProperties();
+        checkSorter();
 
         table = mainController.tableMouseListener(table, model);
 
         table.revalidate();
         table.repaint();
     }
+
 
     private void setupTableProperties() {
         TableColumnModel columnModel = table.getColumnModel();
@@ -273,8 +275,7 @@ public class MainView extends View {
                 public boolean include(RowFilter.Entry<? extends javax.swing.table.TableModel, ? extends Integer> entry) {
                     String column1 = entry.getStringValue(1);
                     String column2 = entry.getStringValue(2);
-                    return column1.toLowerCase().contains(query.toLowerCase()) ||
-                            column2.toLowerCase().contains(query.toLowerCase());
+                    return column1.toLowerCase().contains(query.toLowerCase()) || column2.toLowerCase().contains(query.toLowerCase());
                 }
             });
         }
@@ -295,4 +296,9 @@ public class MainView extends View {
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
+    private void checkSorter() {
+        if (filterName.getText().contains("✔")) mainController.setNameSortable(filterName, sorter);
+        if (filterSurname.getText().contains("✔")) mainController.setSurnameSortable(filterSurname, sorter);
+        if (filterLocality.getText().contains("✔")) mainController.setLocalitySortable(filterLocality, sorter);
+    }
 }

@@ -25,7 +25,7 @@ public class ExportHandler {
             PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
             pdfTable.setWidthPercentage(100);
 
-            for (int i = 0; i < table.getColumnCount()-1; i++) {
+            for (int i = 0; i < table.getColumnCount() - 1; i++) {
                 pdfTable.addCell(new PdfPCell(new Phrase(table.getColumnName(i))));
             }
 
@@ -49,7 +49,7 @@ public class ExportHandler {
             Sheet sheet = workbook.createSheet("Data");
 
             Row headerRow = sheet.createRow(0);
-            for (int i = 0; i < table.getColumnCount()-1; i++) {
+            for (int i = 0; i < table.getColumnCount() - 1; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(table.getColumnName(i));
             }

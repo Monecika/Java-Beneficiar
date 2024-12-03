@@ -181,7 +181,7 @@ public class MainController extends Controller {
         mainModel.addData(displayData);
     }
 
-    public void handleExportRequest(JTable table, String filePath){
+    public void handleExportRequest(JTable table, String filePath) {
         if (filePath.endsWith(".pdf")) {
             exportHandler.exportToPDF(table, filePath);
         } else if (filePath.endsWith(".xlsx")) {
